@@ -1,7 +1,8 @@
 import { Bell, ChevronDown, Cloud, IdCard } from 'lucide-react'
 import { BahriLogo } from '@/components/ui/BahriLogo'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
-import { currentUser } from '@/data/home'
+import { OccasionSwitcher } from '@/components/ui/OccasionSwitcher'
+import { currentUser } from '@core/content/home'
 
 export function Header() {
   return (
@@ -20,6 +21,8 @@ export function Header() {
             <span className="font-semibold text-content">28°C</span>
             <span className="text-subtle">Riyadh</span>
           </button>
+
+          <OccasionSwitcher />
 
           <ThemeToggle />
 

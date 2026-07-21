@@ -7,6 +7,9 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
+      // Portable, framework-agnostic layer — no DOM/web deps. Designed to lift
+      // into a shared `packages/core` (used by web + React Native) later.
+      '@core': fileURLToPath(new URL('./src/core', import.meta.url)),
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },

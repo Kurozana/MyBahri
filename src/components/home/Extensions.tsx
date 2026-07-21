@@ -1,5 +1,6 @@
 import { Card, CardHeader } from '@/components/ui/Card'
-import { extensions } from '@/data/home'
+import { extensions } from '@core/content/home'
+import { iconMap } from '@/lib/icons'
 import { useToast } from '@/components/ui/Toast'
 import { cn } from '@/lib/cn'
 
@@ -10,7 +11,9 @@ export function Extensions() {
     <Card>
       <CardHeader title="Extensions" />
       <div className="mt-4 grid grid-cols-2 gap-3">
-        {extensions.map(({ label, icon: Icon, variant }) => (
+        {extensions.map(({ label, iconKey, variant }) => {
+          const Icon = iconMap[iconKey]
+          return (
           <button
             key={label}
             onClick={() => toast(`Opening ${label}…`, 'info')}
@@ -28,7 +31,8 @@ export function Extensions() {
             </span>
             <span className="text-xs font-semibold text-content">{label}</span>
           </button>
-        ))}
+          )
+        })}
       </div>
     </Card>
   )

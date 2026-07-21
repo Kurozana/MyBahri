@@ -1,5 +1,6 @@
 import { Card, CardHeader } from '@/components/ui/Card'
-import { quickActions } from '@/data/home'
+import { quickActions } from '@core/content/home'
+import { iconMap } from '@/lib/icons'
 import { useToast } from '@/components/ui/Toast'
 import { cn } from '@/lib/cn'
 
@@ -10,7 +11,9 @@ export function QuickActions() {
     <Card>
       <CardHeader title="Quick Actions" />
       <div className="mt-4 grid grid-cols-2 gap-3">
-        {quickActions.map(({ label, desc, icon: Icon, variant }) => (
+        {quickActions.map(({ label, desc, iconKey, variant }) => {
+          const Icon = iconMap[iconKey]
+          return (
           <button
             key={label}
             onClick={() => toast(`Opening ${label}…`, 'info')}
@@ -31,7 +34,8 @@ export function QuickActions() {
               <span className="block text-xs leading-tight text-subtle">{desc}</span>
             </span>
           </button>
-        ))}
+          )
+        })}
       </div>
     </Card>
   )

@@ -1,5 +1,5 @@
 import { Trophy } from 'lucide-react'
-import { employeeOfMonth as emp } from '@/data/home'
+import { employeeOfMonth as emp } from '@core/content/home'
 
 export function EmployeeOfMonth() {
   return (

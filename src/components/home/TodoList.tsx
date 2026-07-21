@@ -3,10 +3,10 @@ import { ClipboardList, Plus, Clock, Filter, TriangleAlert, Check, X } from 'luc
 import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Skeleton } from '@/components/ui/Skeleton'
-import { useApi } from '@/hooks/useApi'
-import { portalApi } from '@/services/portal'
+import { useApi } from '@core/hooks/useApi'
+import { portalApi } from '@core/api/portal'
 import { useToast } from '@/components/ui/Toast'
-import type { TodoDto } from '@/services/types'
+import type { TodoDto } from '@core/api/types'
 import { cn } from '@/lib/cn'
 
 const filters = ['All', 'Pending', 'Approved'] as const

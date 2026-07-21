@@ -7,10 +7,9 @@ type ApiState<T> = {
 }
 
 /**
- * Minimal typed data-fetching hook: runs a fetcher, tracks loading/error, and
- * aborts on unmount. Good enough for the PoC; when the portal grows, swap this
- * for TanStack Query (caching, retries, background refetch) — the call sites
- * barely change because the service layer already isolates fetching.
+ * Minimal typed data-fetching hook. Uses only React (shared by web + React Native),
+ * so it lives in the portable core. When the app grows, swap for TanStack Query —
+ * call sites barely change because the service layer isolates fetching.
  */
 export function useApi<T>(fetcher: (signal: AbortSignal) => Promise<T>): ApiState<T> {
   const [state, setState] = useState<ApiState<T>>({
@@ -31,7 +30,6 @@ export function useApi<T>(fetcher: (signal: AbortSignal) => Promise<T>): ApiStat
       })
 
     return () => controller.abort()
-    // fetcher is expected to be a stable reference (e.g. portalApi.getTodos)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

@@ -13,7 +13,7 @@ import {
 } from 'lucide-react'
 import { Card, CardHeader } from '@/components/ui/Card'
 import { MiniCalendar } from '@/components/ui/MiniCalendar'
-import { events } from '@/data/home'
+import { events } from '@core/content/home'
 import { BahriLogo } from '@/components/ui/BahriLogo'
 import { useToast } from '@/components/ui/Toast'
 import { cn } from '@/lib/cn'

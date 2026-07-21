@@ -1,7 +1,7 @@
 /**
- * API data contracts. These describe the JSON shape exchanged with the backend
- * (mocked by MSW now, Mendix REST/OData later). Presentation-only concerns like
- * icon components are NOT part of these types — components map data to icons.
+ * API data contracts — the JSON shapes exchanged with the backend (mocked by MSW
+ * now, real backend/GCP later). Pure types: no web or framework dependencies, so
+ * this file is shared verbatim by the web app and the future React Native app.
  */
 
 export type TodoStatus = 'Pending Approval' | 'Completed'

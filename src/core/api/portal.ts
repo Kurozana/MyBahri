@@ -1,9 +1,10 @@
-import { apiGet, apiPost, apiPatch } from '@/lib/apiClient'
-import type { TodoDto, OrgMemberDto, TodoStatus } from '@/services/types'
+import { apiGet, apiPost, apiPatch } from '@core/api/client'
+import type { TodoDto, OrgMemberDto, TodoStatus } from '@core/api/types'
 
 /**
- * Portal data service. Components call these functions and never touch fetch
- * directly, so the transport (mock vs. real Mendix) stays swappable in one place.
+ * Portal data service. UI calls these functions and never touches fetch directly,
+ * so the transport (mock vs. real backend/GCP) stays swappable in one place, and
+ * both web and mobile share the exact same service surface.
  */
 export const portalApi = {
   getTodos: (signal?: AbortSignal) => apiGet<TodoDto[]>('/todos', signal),

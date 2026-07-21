@@ -1,5 +1,5 @@
 import { http, HttpResponse, delay } from 'msw'
-import type { TodoDto, OrgMemberDto, TodoStatus } from '@/services/types'
+import type { TodoDto, OrgMemberDto, TodoStatus } from '@core/api/types'
 
 // In-memory store — mutations persist for the session (until page reload).
 const todos: TodoDto[] = [

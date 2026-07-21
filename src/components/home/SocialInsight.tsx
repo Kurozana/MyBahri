@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { TrendingUp, Sparkles, Send, ChevronLeft, ChevronRight } from 'lucide-react'
 import { Card, CardHeader } from '@/components/ui/Card'
-import { birthdayPeople, birthdayWishes } from '@/data/home'
+import { birthdayPeople, birthdayWishes } from '@core/content/home'
 import { useToast } from '@/components/ui/Toast'
 
 export function SocialInsight() {

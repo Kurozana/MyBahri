@@ -1,11 +1,17 @@
 /**
- * Thin typed fetch wrapper. All data access goes through this.
+ * Thin typed fetch wrapper — the single choke point for all data access.
  *
- * During development requests are answered by MSW mocks (see src/mocks).
- * To point at a real Mendix backend later, set VITE_API_BASE_URL (e.g. "/api"
- * proxied in vite.config.ts) — no service or component code needs to change.
+ * Backend-agnostic by design: the host app injects the base URL via
+ * `configureApi()` at startup, so this file has NO build-tool coupling
+ * (no import.meta.env) and works unchanged on web and React Native. Whether
+ * the backend is Mendix, Node/Nest, or a GCP endpoint is invisible here.
  */
-const BASE_URL = import.meta.env.VITE_API_BASE_URL ?? '/api'
+
+let baseUrl = '/api'
+
+export function configureApi(url: string) {
+  baseUrl = url
+}
 
 export class ApiError extends Error {
   constructor(
@@ -18,7 +24,7 @@ export class ApiError extends Error {
 }
 
 export async function apiGet<T>(path: string, signal?: AbortSignal): Promise<T> {
-  const res = await fetch(`${BASE_URL}${path}`, {
+  const res = await fetch(`${baseUrl}${path}`, {
     headers: { Accept: 'application/json' },
     signal,
   })
@@ -27,7 +33,7 @@ export async function apiGet<T>(path: string, signal?: AbortSignal): Promise<T> 
 }
 
 async function send<T>(method: string, path: string, body?: unknown): Promise<T> {
-  const res = await fetch(`${BASE_URL}${path}`, {
+  const res = await fetch(`${baseUrl}${path}`, {
     method,
     headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
     body: body === undefined ? undefined : JSON.stringify(body),

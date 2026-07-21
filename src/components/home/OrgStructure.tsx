@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { Network, Search, TriangleAlert } from 'lucide-react'
 import { Card, CardHeader } from '@/components/ui/Card'
 import { Skeleton } from '@/components/ui/Skeleton'
-import { useApi } from '@/hooks/useApi'
-import { portalApi } from '@/services/portal'
+import { useApi } from '@core/hooks/useApi'
+import { portalApi } from '@core/api/portal'
 import { cn } from '@/lib/cn'
 
 const filters = ['All', 'Leadership Team', 'Product Development'] as const

@@ -1,6 +1,7 @@
 import { ChevronRight } from 'lucide-react'
 import { Card, CardHeader } from '@/components/ui/Card'
-import { mostUsedServices } from '@/data/home'
+import { mostUsedServices } from '@core/content/home'
+import { iconMap } from '@/lib/icons'
 import { useToast } from '@/components/ui/Toast'
 
 export function MostUsedServices() {
@@ -10,7 +11,9 @@ export function MostUsedServices() {
     <Card>
       <CardHeader title="Most Used Services" />
       <div className="mt-4 space-y-3">
-        {mostUsedServices.map(({ label, desc, icon: Icon }) => (
+        {mostUsedServices.map(({ label, desc, iconKey }) => {
+          const Icon = iconMap[iconKey]
+          return (
           <button
             key={label}
             onClick={() => toast(`Opening ${label}…`, 'info')}
@@ -25,7 +28,8 @@ export function MostUsedServices() {
             </span>
             <ChevronRight className="size-4 text-subtle transition group-hover:translate-x-0.5 group-hover:text-primary-500" />
           </button>
-        ))}
+          )
+        })}
       </div>
     </Card>
   )
