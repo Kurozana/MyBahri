@@ -1,0 +1,58 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+  /* Bahri brand palette (extracted from Figma) */
+  --color-brand-cyan: #10c1fd;
+  --color-brand-teal: #14fdd4;
+  --color-brand-mint: #71c9ba;
+
+  --color-primary-50: #ecfbff;
+  --color-primary-100: #d5f3fd;
+  --color-primary-200: #b0e8fc;
+  --color-primary-300: #79d7f9;
+  --color-primary-400: #3bbef2;
+  --color-primary-500: #0da3d9;
+  --color-primary-600: #0588b3;
+  --color-primary-700: #0a6d99;
+  --color-primary-800: #0a5d8f;
+  --color-primary-900: #0d4c6f;
+  --color-primary-950: #0a2f47;
+
+  --color-navy: #1a2b4a;
+  --color-ink: #0f1729;
+}
+
+:root {
+  color-scheme: light;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background-color: #eef3f8;
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* thin scrollbars for inner scroll areas */
+.scroll-thin::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.scroll-thin::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+
+@utility brand-gradient {
+  background-image: linear-gradient(120deg, var(--color-brand-teal), var(--color-brand-cyan));
+}
