@@ -3,11 +3,13 @@ import { Outlet } from 'react-router-dom'
 import { Header } from '@/components/layout/Header'
 import { Sidebar } from '@/components/layout/Sidebar'
 import { Footer } from '@/components/layout/Footer'
+import { BrandLoader } from '@/components/ui/BrandLoader'
 
 function PageLoader() {
   return (
     <div className="grid min-h-[60vh] place-items-center">
-      <span className="size-8 animate-spin rounded-full border-[3px] border-line border-t-primary-600" />
+      {/* Compact, lightweight loader for fast code-split route transitions. */}
+      <BrandLoader variant="inline" />
     </div>
   )
 }
