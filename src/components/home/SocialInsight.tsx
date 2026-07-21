@@ -1,10 +1,23 @@
 import { useState } from 'react'
 import { TrendingUp, Sparkles, Send, ChevronLeft, ChevronRight } from 'lucide-react'
 import { Card, CardHeader } from '@/components/ui/Card'
-import { birthdayPerson, birthdayWishes } from '@/data/home'
+import { birthdayPeople, birthdayWishes } from '@/data/home'
+import { useToast } from '@/components/ui/Toast'
 
 export function SocialInsight() {
+  const toast = useToast()
   const [message, setMessage] = useState('')
+  const [index, setIndex] = useState(0)
+
+  const person = birthdayPeople[index]
+  const move = (dir: number) =>
+    setIndex((i) => (i + dir + birthdayPeople.length) % birthdayPeople.length)
+
+  const send = () => {
+    if (!message.trim()) return
+    toast(`Birthday wish sent to ${person.name.split(' ')[0]} 🎉`)
+    setMessage('')
+  }
 
   return (
     <Card>
@@ -20,13 +33,25 @@ export function SocialInsight() {
             <div className="mx-auto my-4 grid size-16 place-items-center rounded-full bg-white/20 text-2xl backdrop-blur">
               🎂
             </div>
-            <p className="text-lg font-bold">{birthdayPerson.name}</p>
-            <p className="text-sm text-white/80">{birthdayPerson.department}</p>
+            <p className="text-lg font-bold">{person.name}</p>
+            <p className="text-sm text-white/80">{person.department}</p>
           </div>
-          <div className="relative mt-4 flex items-center gap-2 text-white/70">
-            <ChevronLeft className="size-4" />
-            <span className="text-xs">1 / 4</span>
-            <ChevronRight className="size-4" />
+          <div className="relative mt-4 flex items-center gap-3">
+            <button
+              onClick={() => move(-1)}
+              className="grid size-6 place-items-center rounded-full bg-white/15 text-white transition hover:bg-white/25"
+            >
+              <ChevronLeft className="size-4" />
+            </button>
+            <span className="text-xs text-white/80">
+              {index + 1} / {birthdayPeople.length}
+            </span>
+            <button
+              onClick={() => move(1)}
+              className="grid size-6 place-items-center rounded-full bg-white/15 text-white transition hover:bg-white/25"
+            >
+              <ChevronRight className="size-4" />
+            </button>
           </div>
         </div>
 
@@ -36,7 +61,7 @@ export function SocialInsight() {
               <button
                 key={w}
                 onClick={() => setMessage(w)}
-                className="rounded-full border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition hover:border-primary-300 hover:bg-primary-50 hover:text-primary-600"
+                className="rounded-full border border-line px-3 py-1.5 text-xs font-medium text-muted transition hover:border-primary-300 hover:bg-accent-soft/50 hover:text-primary-600 dark:hover:text-primary-300"
               >
                 {w}
               </button>
@@ -44,7 +69,7 @@ export function SocialInsight() {
           </div>
 
           <div className="mt-auto pt-4">
-            <div className="mb-1.5 flex items-center justify-end gap-1 text-xs font-medium text-primary-600">
+            <div className="mb-1.5 flex items-center justify-end gap-1 text-xs font-medium text-primary-600 dark:text-primary-300">
               <Sparkles className="size-3.5" /> Write with AI
             </div>
             <textarea
@@ -52,9 +77,13 @@ export function SocialInsight() {
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Write your personalized message here..."
               rows={2}
-              className="w-full resize-none rounded-xl border border-slate-200 p-3 text-sm text-ink outline-none transition placeholder:text-slate-400 focus:border-primary-400 focus:ring-2 focus:ring-primary-100"
+              className="w-full resize-none rounded-xl border border-line bg-surface p-3 text-sm text-content outline-none transition placeholder:text-subtle focus:border-primary-400 focus:ring-2 focus:ring-primary-100 dark:focus:ring-primary-500/20"
             />
-            <button className="mt-2.5 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-primary-600 to-primary-800 py-2.5 text-sm font-semibold text-white transition hover:brightness-105">
+            <button
+              onClick={send}
+              disabled={!message.trim()}
+              className="mt-2.5 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-primary-600 to-primary-800 py-2.5 text-sm font-semibold text-white transition hover:brightness-105 disabled:opacity-50"
+            >
               <Send className="size-4" /> Send Message
             </button>
           </div>

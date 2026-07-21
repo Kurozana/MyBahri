@@ -1,6 +1,7 @@
 import { lazy } from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { Layout } from '@/components/layout/Layout'
+import { ToastProvider } from '@/components/ui/Toast'
 
 // Each page is its own code-split chunk — the browser only downloads what it visits.
 const HomePage = lazy(() => import('@/pages/HomePage'))
@@ -23,5 +24,9 @@ const router = createBrowserRouter([
 ])
 
 export default function App() {
-  return <RouterProvider router={router} />
+  return (
+    <ToastProvider>
+      <RouterProvider router={router} />
+    </ToastProvider>
+  )
 }

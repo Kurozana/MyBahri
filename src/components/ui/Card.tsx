@@ -11,7 +11,7 @@ export function Card({ children, className }: CardProps) {
   return (
     <section
       className={cn(
-        'rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_1px_2px_rgba(15,23,41,0.04),0_8px_24px_-16px_rgba(15,23,41,0.18)]',
+        'rounded-2xl border border-line bg-surface p-5 shadow-[0_1px_2px_rgba(15,23,41,0.04),0_8px_24px_-16px_rgba(15,23,41,0.18)] transition-colors',
         className,
       )}
     >
@@ -41,16 +41,16 @@ export function CardHeader({
     <div className={cn('flex items-center justify-between gap-3', className)}>
       <div className="flex items-center gap-2.5">
         {icon && (
-          <span className="grid size-9 place-items-center rounded-xl bg-primary-50 text-primary-600">
+          <span className="grid size-9 place-items-center rounded-xl bg-accent-soft text-primary-600 dark:text-primary-300">
             {icon}
           </span>
         )}
         <div className="flex items-center gap-1.5">
           <div>
-            <h2 className="text-[17px] font-bold leading-tight text-ink">{title}</h2>
-            {subtitle && <p className="text-xs text-slate-400">{subtitle}</p>}
+            <h2 className="text-[17px] font-bold leading-tight text-content">{title}</h2>
+            {subtitle && <p className="text-xs text-subtle">{subtitle}</p>}
           </div>
-          {showChevron && <ChevronRight className="size-4 text-slate-400" />}
+          {showChevron && <ChevronRight className="size-4 text-subtle" />}
         </div>
       </div>
       {action}

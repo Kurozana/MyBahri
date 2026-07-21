@@ -1,8 +1,11 @@
 import { Card, CardHeader } from '@/components/ui/Card'
 import { extensions } from '@/data/home'
+import { useToast } from '@/components/ui/Toast'
 import { cn } from '@/lib/cn'
 
 export function Extensions() {
+  const toast = useToast()
+
   return (
     <Card>
       <CardHeader title="Extensions" />
@@ -10,7 +13,8 @@ export function Extensions() {
         {extensions.map(({ label, icon: Icon, variant }) => (
           <button
             key={label}
-            className="group flex flex-col items-center gap-2.5 rounded-xl border border-slate-200/80 p-4 text-center transition hover:border-primary-200 hover:bg-slate-50"
+            onClick={() => toast(`Opening ${label}…`, 'info')}
+            className="group flex flex-col items-center gap-2.5 rounded-xl border border-line p-4 text-center transition hover:border-primary-300 hover:bg-surface-2"
           >
             <span
               className={cn(
@@ -22,7 +26,7 @@ export function Extensions() {
             >
               <Icon className="size-5" />
             </span>
-            <span className="text-xs font-semibold text-ink">{label}</span>
+            <span className="text-xs font-semibold text-content">{label}</span>
           </button>
         ))}
       </div>

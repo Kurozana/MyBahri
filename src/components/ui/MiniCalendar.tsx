@@ -26,7 +26,7 @@ export function MiniCalendar({
 
   return (
     <div className={cn('select-none', className)}>
-      <div className="grid grid-cols-7 gap-y-1 text-center text-[11px] font-semibold text-slate-400">
+      <div className="grid grid-cols-7 gap-y-1 text-center text-[11px] font-semibold text-subtle">
         {DOW.map((d, i) => (
           <span key={i}>{d}</span>
         ))}
@@ -42,8 +42,8 @@ export function MiniCalendar({
                 className={cn(
                   'grid size-7 place-items-center rounded-full transition',
                   isToday && 'bg-primary-600 font-semibold text-white',
-                  !isToday && isMarked && 'font-semibold text-primary-600 ring-1 ring-primary-200',
-                  !isToday && !isMarked && 'text-slate-600 hover:bg-slate-100',
+                  !isToday && isMarked && 'font-semibold text-primary-600 ring-1 ring-primary-200 dark:text-primary-300 dark:ring-primary-400/40',
+                  !isToday && !isMarked && 'text-muted hover:bg-surface-3',
                 )}
               >
                 {day}

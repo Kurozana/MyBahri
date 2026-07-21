@@ -73,10 +73,12 @@ export const employeeOfMonth = {
   month: 'May 2026 Recognition',
 }
 
-export const birthdayPerson = {
-  name: 'Sarah Al-Mansour',
-  department: 'Human Resources',
-}
+export const birthdayPeople = [
+  { name: 'Sarah Al-Mansour', department: 'Human Resources' },
+  { name: 'Omar Nasser', department: 'Product Development' },
+  { name: 'Layla Hassan', department: 'Engineering' },
+  { name: 'Khalid Al-Otaibi', department: 'Operations' },
+]
 
 export const birthdayWishes = [
   'Happy Birthday! 🎉',

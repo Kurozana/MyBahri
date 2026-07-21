@@ -22,10 +22,19 @@ export async function apiGet<T>(path: string, signal?: AbortSignal): Promise<T> 
     headers: { Accept: 'application/json' },
     signal,
   })
-
-  if (!res.ok) {
-    throw new ApiError(res.status, `GET ${path} failed with ${res.status}`)
-  }
-
+  if (!res.ok) throw new ApiError(res.status, `GET ${path} failed with ${res.status}`)
   return (await res.json()) as T
 }
+
+async function send<T>(method: string, path: string, body?: unknown): Promise<T> {
+  const res = await fetch(`${BASE_URL}${path}`, {
+    method,
+    headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+    body: body === undefined ? undefined : JSON.stringify(body),
+  })
+  if (!res.ok) throw new ApiError(res.status, `${method} ${path} failed with ${res.status}`)
+  return (await res.json()) as T
+}
+
+export const apiPost = <T>(path: string, body?: unknown) => send<T>('POST', path, body)
+export const apiPatch = <T>(path: string, body?: unknown) => send<T>('PATCH', path, body)

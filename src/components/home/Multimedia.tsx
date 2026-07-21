@@ -9,11 +9,13 @@ import {
   MapPin,
   Users,
   Info,
+  Check,
 } from 'lucide-react'
 import { Card, CardHeader } from '@/components/ui/Card'
 import { MiniCalendar } from '@/components/ui/MiniCalendar'
 import { events } from '@/data/home'
 import { BahriLogo } from '@/components/ui/BahriLogo'
+import { useToast } from '@/components/ui/Toast'
 import { cn } from '@/lib/cn'
 
 const tabs = [
@@ -23,7 +25,17 @@ const tabs = [
 ] as const
 
 export function Multimedia() {
+  const toast = useToast()
   const [tab, setTab] = useState<(typeof tabs)[number]['id']>('events')
+  const [registered, setRegistered] = useState<Record<number, boolean>>({})
+
+  const toggleRegister = (i: number) => {
+    setRegistered((r) => {
+      const next = { ...r, [i]: !r[i] }
+      toast(next[i] ? `Registered for ${events[i].date}` : 'Registration cancelled')
+      return next
+    })
+  }
 
   return (
     <Card>
@@ -31,7 +43,7 @@ export function Multimedia() {
         title="Multimedia"
         showChevron
         action={
-          <div className="flex items-center gap-1 rounded-xl bg-slate-100 p-1">
+          <div className="flex items-center gap-1 rounded-xl bg-surface-2 p-1">
             {tabs.map(({ id, label, icon: Icon }) => (
               <button
                 key={id}
@@ -39,8 +51,8 @@ export function Multimedia() {
                 className={cn(
                   'flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition',
                   tab === id
-                    ? 'bg-white text-primary-600 shadow-sm'
-                    : 'text-slate-500 hover:text-slate-700',
+                    ? 'bg-surface text-primary-600 shadow-sm dark:text-primary-300'
+                    : 'text-muted hover:text-content',
                 )}
               >
                 <Icon className="size-3.5" />
@@ -52,14 +64,14 @@ export function Multimedia() {
       />
 
       <div className="mt-5 grid gap-5 lg:grid-cols-[220px_1fr]">
-        <div className="rounded-xl bg-slate-50 p-3">
+        <div className="rounded-xl bg-surface-2 p-3">
           <div className="mb-2 flex items-center justify-between px-1">
-            <span className="text-xs font-bold text-ink">May 2026</span>
+            <span className="text-xs font-bold text-content">May 2026</span>
             <div className="flex gap-1">
-              <button className="grid size-5 place-items-center rounded text-slate-400 hover:bg-slate-200">
+              <button className="grid size-5 place-items-center rounded text-subtle hover:bg-surface-3">
                 <ChevronLeft className="size-3.5" />
               </button>
-              <button className="grid size-5 place-items-center rounded text-slate-400 hover:bg-slate-200">
+              <button className="grid size-5 place-items-center rounded text-subtle hover:bg-surface-3">
                 <ChevronRight className="size-3.5" />
               </button>
             </div>
@@ -68,34 +80,52 @@ export function Multimedia() {
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">
-          {events.map((ev, i) => (
-            <div
-              key={i}
-              className="group overflow-hidden rounded-xl border border-slate-200/80 transition hover:shadow-md"
-            >
-              <div className="relative grid h-28 place-items-center bg-gradient-to-br from-brand-mint to-primary-600">
-                <BahriLogo className="size-9 bg-white/20 backdrop-blur" />
-                <Info className="absolute right-2.5 top-2.5 size-4 text-white/70" />
+          {events.map((ev, i) => {
+            const isReg = !!registered[i]
+            const count = ev.attending + (isReg ? 1 : 0)
+            return (
+              <div
+                key={i}
+                className="group overflow-hidden rounded-xl border border-line transition hover:shadow-md"
+              >
+                <div className="relative grid h-28 place-items-center bg-gradient-to-br from-brand-mint to-primary-600">
+                  <BahriLogo className="size-9 bg-white/20 backdrop-blur" />
+                  <Info className="absolute right-2.5 top-2.5 size-4 text-white/70" />
+                </div>
+                <div className="space-y-1.5 p-3">
+                  <p className="flex items-center gap-1.5 text-xs font-semibold text-content">
+                    <CalendarDays className="size-3.5 text-primary-500" /> {ev.date}
+                  </p>
+                  <p className="flex items-center gap-1.5 text-xs text-muted">
+                    <Clock className="size-3.5 text-subtle" /> {ev.time}
+                  </p>
+                  <p className="flex items-center gap-1.5 text-xs text-muted">
+                    <MapPin className="size-3.5 text-subtle" /> {ev.location}
+                  </p>
+                  <p className="flex items-center gap-1.5 text-xs text-muted">
+                    <Users className="size-3.5 text-subtle" /> {count} attending
+                  </p>
+                  <button
+                    onClick={() => toggleRegister(i)}
+                    className={cn(
+                      'mt-1.5 flex w-full items-center justify-center gap-1.5 rounded-lg py-2 text-xs font-semibold transition',
+                      isReg
+                        ? 'border border-emerald-300 text-emerald-600 dark:border-emerald-400/40 dark:text-emerald-300'
+                        : 'bg-gradient-to-r from-primary-500 to-primary-700 text-white hover:brightness-105',
+                    )}
+                  >
+                    {isReg ? (
+                      <>
+                        <Check className="size-3.5" /> Registered
+                      </>
+                    ) : (
+                      'Register'
+                    )}
+                  </button>
+                </div>
               </div>
-              <div className="space-y-1.5 p-3">
-                <p className="flex items-center gap-1.5 text-xs font-semibold text-ink">
-                  <CalendarDays className="size-3.5 text-primary-500" /> {ev.date}
-                </p>
-                <p className="flex items-center gap-1.5 text-xs text-slate-500">
-                  <Clock className="size-3.5 text-slate-400" /> {ev.time}
-                </p>
-                <p className="flex items-center gap-1.5 text-xs text-slate-500">
-                  <MapPin className="size-3.5 text-slate-400" /> {ev.location}
-                </p>
-                <p className="flex items-center gap-1.5 text-xs text-slate-500">
-                  <Users className="size-3.5 text-slate-400" /> {ev.attending} attending
-                </p>
-                <button className="mt-1.5 w-full rounded-lg bg-gradient-to-r from-primary-500 to-primary-700 py-2 text-xs font-semibold text-white transition hover:brightness-105">
-                  Register
-                </button>
-              </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </div>
     </Card>

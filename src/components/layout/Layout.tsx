@@ -7,7 +7,7 @@ import { Footer } from '@/components/layout/Footer'
 function PageLoader() {
   return (
     <div className="grid min-h-[60vh] place-items-center">
-      <span className="size-8 animate-spin rounded-full border-[3px] border-slate-200 border-t-primary-600" />
+      <span className="size-8 animate-spin rounded-full border-[3px] border-line border-t-primary-600" />
     </div>
   )
 }
