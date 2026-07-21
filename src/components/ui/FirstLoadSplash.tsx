@@ -1,44 +1,51 @@
-import { useEffect, useState } from 'react'
-import { BrandLoader } from '@/components/ui/BrandLoader'
+import { useCallback, useEffect, useState } from 'react'
 import { cn } from '@/lib/cn'
 
 const SESSION_KEY = 'mybahri-splash-seen'
-const MIN_DURATION = 2000
+const PRELOADER = '/assets/Bahri_Logo_Preloder_Dark_BG.mp4'
+const MAX_DURATION = 6500 // safety net if the video never fires 'ended'
 
 /**
- * Full-screen brand splash shown once when the app first opens in a session.
- * Sits above everything, then fades out. Later, pass the real loader clip to
- * <BrandLoader videoSrc="/assets/first-load.webm" />.
+ * Full-screen brand preloader shown once when the app first opens in a session.
+ * The clip is a full-frame brand gradient, so it covers the viewport with no
+ * seams; it plays through once, then fades out.
  */
 export function FirstLoadSplash() {
   const [visible, setVisible] = useState(() => !sessionStorage.getItem(SESSION_KEY))
   const [leaving, setLeaving] = useState(false)
 
-  useEffect(() => {
-    if (!visible) return
-    const t1 = window.setTimeout(() => setLeaving(true), MIN_DURATION)
-    const t2 = window.setTimeout(() => {
+  const finish = useCallback(() => {
+    setLeaving(true)
+    window.setTimeout(() => {
       sessionStorage.setItem(SESSION_KEY, '1')
       setVisible(false)
-    }, MIN_DURATION + 500)
-    return () => {
-      window.clearTimeout(t1)
-      window.clearTimeout(t2)
-    }
-  }, [visible])
+    }, 500)
+  }, [])
+
+  useEffect(() => {
+    if (!visible) return
+    const timer = window.setTimeout(finish, MAX_DURATION)
+    return () => window.clearTimeout(timer)
+  }, [visible, finish])
 
   if (!visible) return null
 
   return (
     <div
       className={cn(
-        'fixed inset-0 z-[100] grid place-items-center bg-page',
+        'fixed inset-0 z-[100] overflow-hidden bg-gradient-to-br from-primary-700 to-brand-mint',
         leaving && 'animate-splash-out',
       )}
     >
-      {/* soft brand glow behind the mark */}
-      <div className="pointer-events-none absolute left-1/2 top-1/2 size-[420px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-br from-brand-teal/20 to-brand-cyan/20 blur-3xl" />
-      <BrandLoader variant="splash" />
+      <video
+        src={PRELOADER}
+        autoPlay
+        muted
+        playsInline
+        onEnded={finish}
+        onError={finish}
+        className="size-full object-cover"
+      />
     </div>
   )
 }

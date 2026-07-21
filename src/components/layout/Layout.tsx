@@ -9,7 +9,7 @@ function PageLoader() {
   return (
     <div className="grid min-h-[60vh] place-items-center">
       {/* Compact, lightweight loader for fast code-split route transitions. */}
-      <BrandLoader variant="inline" />
+      <BrandLoader />
     </div>
   )
 }
