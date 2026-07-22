@@ -4,13 +4,13 @@ import type { TodoDto, OrgMemberDto, TodoStatus, UserDto, EmployeeDto } from '@c
 const employees: EmployeeDto[] = [
   { id: 'e1', name: 'Anam Amjad', initials: 'AA', title: 'Project Manager', department: 'PMO', floor: 'Floor 5', extension: '5120', email: 'anam@bahri.sa' },
   { id: 'e2', name: 'Sarah Al-Mansour', initials: 'SM', title: 'Chief HR Officer', department: 'Human Resources', floor: 'Floor 7', extension: '7001', email: 'sarah.m@bahri.sa' },
-  { id: 'e3', name: 'Mohammed Al-Harbi', initials: 'MH', title: 'Chief Executive Officer', department: 'Executive', floor: 'Floor 9', extension: '9000', email: 'm.harbi@bahri.sa' },
+  { id: 'e3', name: 'Ahmed Alsubaey', initials: 'AA', title: 'Chief Executive Officer', department: 'Executive', floor: 'Floor 9', extension: '9000', email: 'a.alsubaey@bahri.sa' },
   { id: 'e4', name: 'Omar Nasser', initials: 'ON', title: 'UX Designer', department: 'Product', floor: 'Floor 4', extension: '4218', email: 'omar.n@bahri.sa' },
   { id: 'e5', name: 'Layla Hassan', initials: 'LH', title: 'Senior Engineer', department: 'Engineering', floor: 'Floor 4', extension: '4305', email: 'layla.h@bahri.sa' },
   { id: 'e6', name: 'Khalid Al-Otaibi', initials: 'KO', title: 'Product Lead', department: 'Product', floor: 'Floor 4', extension: '4200', email: 'khalid.o@bahri.sa' },
   { id: 'e7', name: 'Taher Azadbagh', initials: 'TA', title: 'Chief Planning Officer', department: 'Strategy', floor: 'Floor 8', extension: '8110', email: 'taher.a@bahri.sa' },
   { id: 'e8', name: 'Fatima Zahra', initials: 'FZ', title: 'QA Lead', department: 'Engineering', floor: 'Floor 4', extension: '4410', email: 'fatima.z@bahri.sa' },
-  { id: 'e9', name: 'Ahmed Alsubaey', initials: 'AS', title: 'Chief Support Officer', department: 'Operations', floor: 'Floor 6', extension: '6015', email: 'ahmed.s@bahri.sa' },
+  { id: 'e9', name: 'Mohammed Al-Harbi', initials: 'MH', title: 'Chief Support Officer', department: 'Operations', floor: 'Floor 6', extension: '6015', email: 'm.harbi@bahri.sa' },
   { id: 'e10', name: 'Rania Khoury', initials: 'RK', title: 'System Administrator', department: 'IT', floor: 'Floor 3', extension: '3077', email: 'rania.k@bahri.sa' },
 ]
 
@@ -18,7 +18,7 @@ const employees: EmployeeDto[] = [
 const users: UserDto[] = [
   { id: 'u1', name: 'Anam Amjad', email: 'anam@bahri.sa', initials: 'AA', role: 'manager', title: 'Project Manager', department: 'PMO' },
   { id: 'u2', name: 'Sarah Al-Mansour', email: 'hr@bahri.sa', initials: 'SM', role: 'hr', title: 'Chief HR Officer', department: 'Human Resources' },
-  { id: 'u3', name: 'Mohammed Al-Harbi', email: 'exec@bahri.sa', initials: 'MH', role: 'executive', title: 'Chief Executive Officer', department: 'Executive' },
+  { id: 'u3', name: 'Ahmed Alsubaey', email: 'exec@bahri.sa', initials: 'AA', role: 'executive', title: 'Chief Executive Officer', department: 'Executive' },
   { id: 'u4', name: 'Omar Nasser', email: 'employee@bahri.sa', initials: 'ON', role: 'employee', title: 'UX Designer', department: 'Product' },
   { id: 'u5', name: 'Rania Khoury', email: 'admin@bahri.sa', initials: 'RK', role: 'admin', title: 'System Administrator', department: 'IT' },
 ]
@@ -30,8 +30,8 @@ const todos: TodoDto[] = [
 ]
 
 const orgMembers: OrgMemberDto[] = [
-  { id: 'm1', name: 'Mohammed Al-Harbi', title: 'Chief Executive Officer', initials: 'MH', team: 'Leadership Team' },
-  { id: 'm2', name: 'Ahmed Alsubaey', title: 'Chief Support Officer', initials: 'AA', team: 'Leadership Team' },
+  { id: 'm1', name: 'Ahmed Alsubaey', title: 'Chief Executive Officer', initials: 'AA', team: 'Leadership Team' },
+  { id: 'm2', name: 'Mohammed Al-Harbi', title: 'Chief Support Officer', initials: 'MH', team: 'Leadership Team' },
   { id: 'm3', name: 'Sarah Al-Mansour', title: 'Chief HR Officer', initials: 'SM', team: 'Leadership Team' },
   { id: 'm4', name: 'Taher Azadbagh', title: 'Chief Planning Officer', initials: 'TA', team: 'Leadership Team' },
   { id: 'm5', name: 'Khalid Al-Otaibi', title: 'Product Lead', initials: 'KO', team: 'Product Development' },

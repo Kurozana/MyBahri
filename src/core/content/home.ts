@@ -49,7 +49,7 @@ export const extensions: ActionTile[] = [
 ]
 
 export const ceoMessage = {
-  author: 'Mohammed Al-Harbi',
+  author: 'Ahmed Alsubaey',
   role: 'Chief Executive Officer',
   date: '16 Sep, 2025',
   excerpt:

@@ -21,7 +21,8 @@ Each version below maps to a GitHub Release.
 3. Cleaned up the CEO photo on the home page.
 
 ### Fixed
-1. Various fixes and refinements.
+1. Corrected the CEO's name shown across the portal.
+2. Various fixes and refinements.
 
 ---
 
