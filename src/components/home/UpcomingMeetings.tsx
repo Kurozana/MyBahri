@@ -4,7 +4,7 @@ import { Card, CardHeader } from '@/components/ui/Card'
 import { Skeleton } from '@/components/ui/Skeleton'
 import { getUpcomingMeetings } from '@core/api/graph'
 import type { MeetingDto } from '@core/api/types'
-import { connectCalendar, getCalendarToken, isCalendarConnected } from '@/lib/msal'
+import { connectCalendar, getCalendarToken, isCalendarConnected, preloadMsal } from '@/lib/msal'
 
 type Status = 'idle' | 'loading' | 'ready' | 'error'
 
@@ -18,10 +18,19 @@ function fmtDay(iso: string) {
   return d.toLocaleDateString([], { weekday: 'short', day: 'numeric', month: 'short' })
 }
 
+function friendlyError(e: unknown): string {
+  const err = e as { errorCode?: string; errorMessage?: string; message?: string }
+  if (err?.errorCode === 'user_cancelled' || err?.errorCode === 'interaction_in_progress') {
+    return "Sign-in didn't finish — please click Connect again."
+  }
+  return err?.errorMessage || err?.message || "Couldn't connect. Please try again."
+}
+
 export function UpcomingMeetings() {
   const [status, setStatus] = useState<Status>('idle')
   const [meetings, setMeetings] = useState<MeetingDto[]>([])
   const [connecting, setConnecting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const load = async () => {
     setStatus('loading')
@@ -47,11 +56,14 @@ export function UpcomingMeetings() {
 
   const connect = async () => {
     setConnecting(true)
+    setError(null)
     try {
       await connectCalendar()
       await load()
-    } catch {
-      // popup closed or consent declined — stay on the connect prompt
+    } catch (e) {
+      console.error('[calendar] connect failed', e)
+      setError(friendlyError(e))
+      setStatus('idle')
     } finally {
       setConnecting(false)
     }
@@ -85,12 +97,21 @@ export function UpcomingMeetings() {
             <p className="mt-1 max-w-xs text-xs text-subtle">
               See your Outlook meetings for the week right here.
             </p>
+
+            {error && (
+              <p className="mt-3 flex items-center gap-1.5 rounded-lg bg-rose-50 px-3 py-2 text-xs text-rose-600 dark:bg-rose-400/10 dark:text-rose-300">
+                <TriangleAlert className="size-3.5 shrink-0" /> {error}
+              </p>
+            )}
+
             <button
               onClick={connect}
+              onMouseEnter={preloadMsal}
+              onFocus={preloadMsal}
               disabled={connecting}
               className="mt-4 rounded-xl bg-gradient-to-r from-primary-500 to-primary-700 px-4 py-2.5 text-sm font-semibold text-white transition hover:brightness-105 disabled:opacity-60"
             >
-              {connecting ? 'Connecting…' : 'Connect Outlook Calendar'}
+              {connecting ? 'Connecting…' : error ? 'Try again' : 'Connect Outlook Calendar'}
             </button>
           </div>
         )}
