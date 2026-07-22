@@ -12,6 +12,7 @@ import { BrandLoader } from '@/components/ui/BrandLoader'
 const HomePage = lazy(() => import('@/pages/HomePage'))
 const StubPage = lazy(() => import('@/pages/StubPage'))
 const LoginPage = lazy(() => import('@/pages/LoginPage'))
+const CeoMessagePage = lazy(() => import('@/pages/CeoMessagePage'))
 
 const router = createBrowserRouter(
   [
@@ -40,6 +41,7 @@ const router = createBrowserRouter(
       ),
       children: [
         { index: true, element: <HomePage /> },
+        { path: 'ceo-message', element: <CeoMessagePage /> },
         { path: 'workspace', element: <StubPage /> },
         { path: 'knowledge', element: <StubPage /> },
         { path: 'locations', element: <StubPage /> },

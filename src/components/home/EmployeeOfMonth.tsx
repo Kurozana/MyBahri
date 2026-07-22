@@ -1,10 +1,23 @@
+import { useState } from 'react'
 import { Trophy } from 'lucide-react'
 import { employeeOfMonth as emp } from '@core/content/home'
+import { ConfettiBurst } from '@/components/ui/ConfettiBurst'
+import { useToast } from '@/components/ui/Toast'
 
 export function EmployeeOfMonth() {
+  const toast = useToast()
+  const [burst, setBurst] = useState(0)
+
+  const congratulate = () => {
+    setBurst((b) => b + 1)
+    toast(`You congratulated ${emp.name.split(' ')[0]}! 🎉`)
+  }
+
   return (
     <div className="relative flex flex-col overflow-hidden rounded-2xl bg-gradient-to-br from-navy via-primary-900 to-primary-800 p-6 text-white shadow-[0_18px_40px_-24px_rgba(15,23,41,0.9)]">
       <div className="pointer-events-none absolute -right-12 -top-12 size-44 rounded-full bg-white/5" />
+      {burst > 0 && <ConfettiBurst key={burst} />}
+
       <div className="relative flex items-center gap-2">
         <Trophy className="size-5 text-amber-300" />
         <div>
@@ -34,8 +47,11 @@ export function EmployeeOfMonth() {
         </div>
       </div>
 
-      <button className="relative mt-5 w-full rounded-xl bg-white py-2.5 text-sm font-semibold text-primary-700 transition hover:bg-white/90">
-        Congratulate Mohammed 🎉
+      <button
+        onClick={congratulate}
+        className="relative mt-5 w-full rounded-xl bg-white py-2.5 text-sm font-semibold text-primary-700 transition hover:bg-white/90 active:scale-[0.99]"
+      >
+        Congratulate {emp.name.split(' ')[0]} 🎉
       </button>
     </div>
   )

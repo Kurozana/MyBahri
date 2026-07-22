@@ -21,6 +21,17 @@ export interface OrgMemberDto {
   team: 'Leadership Team' | 'Product Development'
 }
 
+export interface EmployeeDto {
+  id: string
+  name: string
+  initials: string
+  title: string
+  department: string
+  floor: string
+  extension: string
+  email: string
+}
+
 // --- Accounts & permissions ---
 
 export type Role = 'employee' | 'manager' | 'hr' | 'executive' | 'admin'

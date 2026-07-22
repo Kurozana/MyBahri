@@ -7,12 +7,17 @@ import { OccasionSwitcher } from '@/components/ui/OccasionSwitcher'
 import { Can } from '@/components/auth/Can'
 import { useAuth } from '@/hooks/useAuth'
 import { useToast } from '@/components/ui/Toast'
+import { useApi } from '@core/hooks/useApi'
+import { getWeather, RIYADH } from '@core/api/weather'
 import { roleLabels } from '@core/auth/permissions'
+
+const fetchWeather = (signal: AbortSignal) => getWeather(RIYADH.lat, RIYADH.lon, signal)
 
 export function Header() {
   const navigate = useNavigate()
   const toast = useToast()
   const { user, logout } = useAuth()
+  const { data: weather } = useApi(fetchWeather)
   const [open, setOpen] = useState(false)
 
   const signOut = () => {
@@ -34,8 +39,10 @@ export function Header() {
         <div className="flex items-center gap-2 sm:gap-3">
           <button className="hidden items-center gap-2 rounded-full border border-line bg-surface px-3.5 py-1.5 text-sm font-medium text-muted transition hover:bg-surface-2 sm:flex">
             <Cloud className="size-4 text-primary-500" />
-            <span className="font-semibold text-content">28°C</span>
-            <span className="text-subtle">Riyadh</span>
+            <span className="font-semibold text-content">
+              {weather ? `${weather.tempC}°C` : '—'}
+            </span>
+            <span className="text-subtle">{RIYADH.city}</span>
           </button>
 
           <OccasionSwitcher />

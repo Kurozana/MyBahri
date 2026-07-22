@@ -1,5 +1,5 @@
 import { apiGet, apiPost, apiPatch } from '@core/api/client'
-import type { TodoDto, OrgMemberDto, TodoStatus } from '@core/api/types'
+import type { TodoDto, OrgMemberDto, TodoStatus, EmployeeDto } from '@core/api/types'
 
 /**
  * Portal data service. UI calls these functions and never touches fetch directly,
@@ -13,4 +13,6 @@ export const portalApi = {
     apiPatch<TodoDto>(`/todos/${id}`, { status }),
 
   getOrgMembers: (signal?: AbortSignal) => apiGet<OrgMemberDto[]>('/org-members', signal),
+
+  getEmployees: (signal?: AbortSignal) => apiGet<EmployeeDto[]>('/employees', signal),
 }

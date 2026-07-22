@@ -48,6 +48,22 @@ export const extensions: ActionTile[] = [
   { label: 'Quick Contacts', desc: '', iconKey: 'contacts', variant: 'mint' },
 ]
 
+export const ceoMessage = {
+  author: 'Mohammed Al-Harbi',
+  role: 'Chief Executive Officer',
+  date: '16 Sep, 2025',
+  excerpt:
+    'I am proud to share that our Q1 performance has exceeded expectations, with a 23% increase in operational efficiency and outstanding safety records across all our fleet operations. This achievement is a testament to your dedication and commitment to excellence.',
+  full: [
+    'Dear colleagues,',
+    'I am proud to share that our Q1 performance has exceeded expectations, with a 23% increase in operational efficiency and outstanding safety records across all our fleet operations. This achievement is a testament to your dedication and commitment to excellence.',
+    'Across every business unit, our teams have shown what it means to operate with discipline, care, and ambition. Our on-time performance reached record levels, our safety indicators improved for the fourth consecutive quarter, and our customers continue to place their trust in Bahri to move what matters most.',
+    'As we look ahead, our focus remains clear: invest in our people, modernize our fleet, and strengthen the digital backbone that connects us — this very portal being one step in that journey. The months to come will bring new challenges, but I have no doubt that, together, we will meet them.',
+    'Thank you for everything you do. Your commitment is the reason Bahri continues to lead.',
+    'With appreciation,',
+  ],
+}
+
 export const events = [
   {
     date: 'June 15, 2026',
