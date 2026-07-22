@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useState } from 'react'
 import { cn } from '@/lib/cn'
+import { asset } from '@/lib/asset'
 
 const SESSION_KEY = 'mybahri-splash-seen'
-const PRELOADER = '/assets/Bahri_Logo_Preloder_Dark_BG.mp4'
+const PRELOADER = asset('assets/Bahri_Logo_Preloder_Dark_BG.mp4')
 const MAX_DURATION = 6500 // safety net if the video never fires 'ended'
 
 /**

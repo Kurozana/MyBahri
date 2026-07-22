@@ -20,3 +20,29 @@ export interface OrgMemberDto {
   initials: string
   team: 'Leadership Team' | 'Product Development'
 }
+
+// --- Accounts & permissions ---
+
+export type Role = 'employee' | 'manager' | 'hr' | 'executive' | 'admin'
+
+export type Permission =
+  | 'attendance.punch'
+  | 'directory.view'
+  | 'workflow.approve'
+  | 'content.manage'
+  | 'admin.access'
+
+export interface UserDto {
+  id: string
+  name: string
+  email: string
+  initials: string
+  role: Role
+  title: string
+  department: string
+}
+
+export interface AuthResponse {
+  token: string
+  user: UserDto
+}

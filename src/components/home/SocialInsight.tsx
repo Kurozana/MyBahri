@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { TrendingUp, Sparkles, Send, ChevronLeft, ChevronRight } from 'lucide-react'
 import { Card, CardHeader } from '@/components/ui/Card'
 import { birthdayPeople, birthdayWishes } from '@core/content/home'
+import { asset } from '@/lib/asset'
 import { useToast } from '@/components/ui/Toast'
 
 export function SocialInsight() {
@@ -26,7 +27,7 @@ export function SocialInsight() {
       <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_1fr]">
         <div className="relative flex flex-col items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-brand-mint to-primary-700 p-6 text-center text-white">
           <div className="pointer-events-none absolute inset-0 opacity-20">
-            <img src="/assets/birthday.png" alt="" className="size-full object-cover" />
+            <img src={asset('assets/birthday.png')} alt="" className="size-full object-cover" />
           </div>
           <div className="relative">
             <h3 className="text-2xl font-extrabold drop-shadow">Happy Birthday!</h3>

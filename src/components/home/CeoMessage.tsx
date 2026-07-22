@@ -1,4 +1,5 @@
 import { ArrowRight } from 'lucide-react'
+import { asset } from '@/lib/asset'
 
 export function CeoMessage() {
   return (
@@ -25,7 +26,7 @@ export function CeoMessage() {
 
         <div className="hidden shrink-0 self-end sm:block">
           <img
-            src="/assets/ceo.png"
+            src={asset('assets/ceo.png')}
             alt="CEO"
             className="h-52 w-auto object-contain drop-shadow-2xl"
           />

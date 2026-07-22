@@ -8,9 +8,19 @@
  */
 
 let baseUrl = '/api'
+let authToken: string | null = null
 
 export function configureApi(url: string) {
   baseUrl = url
+}
+
+/** Set/clear the bearer token sent with every request (null = signed out). */
+export function setAuthToken(token: string | null) {
+  authToken = token
+}
+
+function authHeaders(): Record<string, string> {
+  return authToken ? { Authorization: `Bearer ${authToken}` } : {}
 }
 
 export class ApiError extends Error {
@@ -25,7 +35,7 @@ export class ApiError extends Error {
 
 export async function apiGet<T>(path: string, signal?: AbortSignal): Promise<T> {
   const res = await fetch(`${baseUrl}${path}`, {
-    headers: { Accept: 'application/json' },
+    headers: { Accept: 'application/json', ...authHeaders() },
     signal,
   })
   if (!res.ok) throw new ApiError(res.status, `GET ${path} failed with ${res.status}`)
@@ -35,7 +45,7 @@ export async function apiGet<T>(path: string, signal?: AbortSignal): Promise<T> 
 async function send<T>(method: string, path: string, body?: unknown): Promise<T> {
   const res = await fetch(`${baseUrl}${path}`, {
     method,
-    headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+    headers: { Accept: 'application/json', 'Content-Type': 'application/json', ...authHeaders() },
     body: body === undefined ? undefined : JSON.stringify(body),
   })
   if (!res.ok) throw new ApiError(res.status, `${method} ${path} failed with ${res.status}`)

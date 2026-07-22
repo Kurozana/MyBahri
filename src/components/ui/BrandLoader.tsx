@@ -2,10 +2,11 @@ import { useState } from 'react'
 import { useIsDark } from '@/hooks/useIsDark'
 import { BahriLogo } from '@/components/ui/BahriLogo'
 import { cn } from '@/lib/cn'
+import { asset } from '@/lib/asset'
 
 // Short looping logo clips (theme-matched backgrounds).
-const ICON_LIGHT = '/assets/Bahri_Logo_Icon_Bright.mp4'
-const ICON_DARK = '/assets/Icone_DarkIcon_Dark_BG.mp4'
+const ICON_LIGHT = asset('assets/Bahri_Logo_Icon_Bright.mp4')
+const ICON_DARK = asset('assets/Icone_DarkIcon_Dark_BG.mp4')
 
 /**
  * Lightweight navigation/route loader: the looping brand icon clip that matches

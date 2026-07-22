@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Navigate } from 'react-router-dom'
 import {
   Mail,
   Lock,
@@ -11,8 +11,10 @@ import {
   Sparkles,
   ArrowRight,
   LifeBuoy,
+  TriangleAlert,
 } from 'lucide-react'
 import { BahriLogo } from '@/components/ui/BahriLogo'
+import { useAuth } from '@/hooks/useAuth'
 import { cn } from '@/lib/cn'
 
 const highlights = [
@@ -21,17 +23,39 @@ const highlights = [
   { icon: Sparkles, title: 'Everything Bahri', desc: 'Services, people and news in one place.' },
 ]
 
+const demoAccounts = [
+  { email: 'anam@bahri.sa', role: 'Manager' },
+  { email: 'hr@bahri.sa', role: 'HR' },
+  { email: 'exec@bahri.sa', role: 'Executive' },
+  { email: 'admin@bahri.sa', role: 'Admin' },
+]
+
 export default function LoginPage() {
   const navigate = useNavigate()
+  const { status, login, ssoLogin } = useAuth()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPw, setShowPw] = useState(false)
   const [busy, setBusy] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  if (status === 'authed') return <Navigate to="/" replace />
+
+  const run = async (fn: () => Promise<void>) => {
+    setBusy(true)
+    setError(null)
+    try {
+      await fn()
+      navigate('/')
+    } catch {
+      setError('Sign in failed. Please try again.')
+      setBusy(false)
+    }
+  }
 
   const signIn = (e?: React.FormEvent) => {
     e?.preventDefault()
-    setBusy(true)
-    window.setTimeout(() => navigate('/'), 700)
+    run(() => login(email || 'anam@bahri.sa', password))
   }
 
   return (
@@ -89,7 +113,7 @@ export default function LoginPage() {
           <p className="mt-1.5 text-sm text-muted">Sign in to continue to your portal.</p>
 
           <button
-            onClick={() => signIn()}
+            onClick={() => run(ssoLogin)}
             disabled={busy}
             className="mt-7 flex w-full items-center justify-center gap-2.5 rounded-xl bg-gradient-to-r from-primary-500 to-primary-700 py-3 text-sm font-semibold text-white shadow-sm transition hover:brightness-105 active:scale-[0.99] disabled:opacity-60"
           >
@@ -102,6 +126,12 @@ export default function LoginPage() {
             or sign in with email
             <span className="h-px flex-1 bg-line" />
           </div>
+
+          {error && (
+            <div className="mb-4 flex items-center gap-2 rounded-xl bg-rose-50 p-3 text-sm text-rose-600 dark:bg-rose-400/10 dark:text-rose-300">
+              <TriangleAlert className="size-4" /> {error}
+            </div>
+          )}
 
           <form onSubmit={signIn} className="space-y-4">
             <label className="block">
@@ -162,7 +192,25 @@ export default function LoginPage() {
             </button>
           </form>
 
-          <p className="mt-8 flex items-center justify-center gap-1.5 text-xs text-subtle">
+          {/* Demo helper — remove once real SSO is connected */}
+          <div className="mt-6 rounded-xl border border-dashed border-line bg-surface-2/60 p-3">
+            <p className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-subtle">
+              Demo accounts (any password)
+            </p>
+            <div className="flex flex-wrap gap-1.5">
+              {demoAccounts.map((a) => (
+                <button
+                  key={a.email}
+                  onClick={() => setEmail(a.email)}
+                  className="rounded-full border border-line px-2.5 py-1 text-xs font-medium text-muted transition hover:border-primary-300 hover:text-primary-600 dark:hover:text-primary-300"
+                >
+                  {a.role}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <p className="mt-6 flex items-center justify-center gap-1.5 text-xs text-subtle">
             <LifeBuoy className="size-3.5" />
             Trouble signing in? Contact the IT Service Desk.
           </p>

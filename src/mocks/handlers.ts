@@ -1,5 +1,14 @@
 import { http, HttpResponse, delay } from 'msw'
-import type { TodoDto, OrgMemberDto, TodoStatus } from '@core/api/types'
+import type { TodoDto, OrgMemberDto, TodoStatus, UserDto } from '@core/api/types'
+
+// Demo accounts — sign in with any of these (any password) to see role-based UI.
+const users: UserDto[] = [
+  { id: 'u1', name: 'Anam Amjad', email: 'anam@bahri.sa', initials: 'AA', role: 'manager', title: 'Project Manager', department: 'PMO' },
+  { id: 'u2', name: 'Sarah Al-Mansour', email: 'hr@bahri.sa', initials: 'SM', role: 'hr', title: 'Chief HR Officer', department: 'Human Resources' },
+  { id: 'u3', name: 'Mohammed Al-Harbi', email: 'exec@bahri.sa', initials: 'MH', role: 'executive', title: 'Chief Executive Officer', department: 'Executive' },
+  { id: 'u4', name: 'Omar Nasser', email: 'employee@bahri.sa', initials: 'ON', role: 'employee', title: 'UX Designer', department: 'Product' },
+  { id: 'u5', name: 'Rania Khoury', email: 'admin@bahri.sa', initials: 'RK', role: 'admin', title: 'System Administrator', department: 'IT' },
+]
 
 // In-memory store — mutations persist for the session (until page reload).
 const todos: TodoDto[] = [
@@ -21,13 +30,34 @@ const orgMembers: OrgMemberDto[] = [
 const LATENCY = 500
 let seq = 100
 
+// Match the same base the client uses (see main.tsx). Under GitHub Pages this
+// becomes '/MyBahri/api', which keeps requests inside the worker's scope.
+const API = `${import.meta.env.BASE_URL}api`
+
 export const handlers = [
-  http.get('/api/todos', async () => {
+  // --- Auth (mock) ---
+  http.post(`${API}/auth/login`, async ({ request }) => {
+    const { email } = (await request.json()) as { email?: string }
+    const user =
+      users.find((u) => u.email.toLowerCase() === String(email ?? '').toLowerCase()) ?? users[0]
+    await delay(400)
+    return HttpResponse.json({ token: `mock-token-${user.id}`, user })
+  }),
+
+  http.get(`${API}/auth/me`, async ({ request }) => {
+    const id = (request.headers.get('Authorization') ?? '').replace('Bearer mock-token-', '')
+    const user = users.find((u) => u.id === id)
+    if (!user) return new HttpResponse(null, { status: 401 })
+    await delay(200)
+    return HttpResponse.json(user)
+  }),
+
+  http.get(`${API}/todos`, async () => {
     await delay(LATENCY)
     return HttpResponse.json(todos)
   }),
 
-  http.post('/api/todos', async ({ request }) => {
+  http.post(`${API}/todos`, async ({ request }) => {
     await delay(300)
     const { title } = (await request.json()) as { title: string }
     const todo: TodoDto = {
@@ -40,7 +70,7 @@ export const handlers = [
     return HttpResponse.json(todo, { status: 201 })
   }),
 
-  http.patch('/api/todos/:id', async ({ params, request }) => {
+  http.patch(`${API}/todos/:id`, async ({ params, request }) => {
     await delay(200)
     const { status } = (await request.json()) as { status: TodoStatus }
     const todo = todos.find((t) => t.id === params.id)
@@ -49,7 +79,7 @@ export const handlers = [
     return HttpResponse.json(todo)
   }),
 
-  http.get('/api/org-members', async () => {
+  http.get(`${API}/org-members`, async () => {
     await delay(LATENCY)
     return HttpResponse.json(orgMembers)
   }),
