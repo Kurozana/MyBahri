@@ -1,5 +1,5 @@
 import { Suspense } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 import { Header } from '@/components/layout/Header'
 import { Sidebar } from '@/components/layout/Sidebar'
 import { Footer } from '@/components/layout/Footer'
@@ -16,6 +16,7 @@ function PageLoader() {
 
 /** Persistent app shell. Header & Sidebar render once; only <Outlet/> swaps per route. */
 export function Layout() {
+  const location = useLocation()
   return (
     <div className="min-h-screen">
       <Header />
@@ -23,7 +24,11 @@ export function Layout() {
         <Sidebar />
         <main className="min-w-0 flex-1">
           <Suspense fallback={<PageLoader />}>
-            <Outlet />
+            {/* Keyed by route so the content replays a subtle enter animation on
+                every navigation (cached or not) — independent of the loader. */}
+            <div key={location.pathname} className="animate-page-in">
+              <Outlet />
+            </div>
           </Suspense>
           <Footer />
         </main>
