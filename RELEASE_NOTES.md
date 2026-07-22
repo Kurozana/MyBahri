@@ -14,6 +14,7 @@ Each version below maps to a GitHub Release.
 4. Added Employee Lookup — search for a colleague and see their extension, email, department and floor.
 5. Added a full CEO message page you can open from the home page.
 6. Added live weather in the top bar.
+7. Added a reporting-line view — click a colleague to see where you sit in the organization (your manager, their manager, and your teammates).
 
 ### Improved
 1. Congratulating the Employee of the Month now plays a fun celebration.

@@ -2,16 +2,17 @@ import { http, HttpResponse, delay } from 'msw'
 import type { TodoDto, OrgMemberDto, TodoStatus, UserDto, EmployeeDto } from '@core/api/types'
 
 const employees: EmployeeDto[] = [
-  { id: 'e1', name: 'Anam Amjad', initials: 'AA', title: 'Project Manager', department: 'PMO', floor: 'Floor 5', extension: '5120', email: 'anam@bahri.sa' },
-  { id: 'e2', name: 'Sarah Al-Mansour', initials: 'SM', title: 'Chief HR Officer', department: 'Human Resources', floor: 'Floor 7', extension: '7001', email: 'sarah.m@bahri.sa' },
   { id: 'e3', name: 'Ahmed Alsubaey', initials: 'AA', title: 'Chief Executive Officer', department: 'Executive', floor: 'Floor 9', extension: '9000', email: 'a.alsubaey@bahri.sa' },
-  { id: 'e4', name: 'Omar Nasser', initials: 'ON', title: 'UX Designer', department: 'Product', floor: 'Floor 4', extension: '4218', email: 'omar.n@bahri.sa' },
-  { id: 'e5', name: 'Layla Hassan', initials: 'LH', title: 'Senior Engineer', department: 'Engineering', floor: 'Floor 4', extension: '4305', email: 'layla.h@bahri.sa' },
-  { id: 'e6', name: 'Khalid Al-Otaibi', initials: 'KO', title: 'Product Lead', department: 'Product', floor: 'Floor 4', extension: '4200', email: 'khalid.o@bahri.sa' },
-  { id: 'e7', name: 'Taher Azadbagh', initials: 'TA', title: 'Chief Planning Officer', department: 'Strategy', floor: 'Floor 8', extension: '8110', email: 'taher.a@bahri.sa' },
-  { id: 'e8', name: 'Fatima Zahra', initials: 'FZ', title: 'QA Lead', department: 'Engineering', floor: 'Floor 4', extension: '4410', email: 'fatima.z@bahri.sa' },
-  { id: 'e9', name: 'Mohammed Al-Harbi', initials: 'MH', title: 'Chief Support Officer', department: 'Operations', floor: 'Floor 6', extension: '6015', email: 'm.harbi@bahri.sa' },
-  { id: 'e10', name: 'Rania Khoury', initials: 'RK', title: 'System Administrator', department: 'IT', floor: 'Floor 3', extension: '3077', email: 'rania.k@bahri.sa' },
+  { id: 'e2', name: 'Sarah Al-Mansour', initials: 'SM', title: 'Chief HR Officer', department: 'Human Resources', floor: 'Floor 7', extension: '7001', email: 'sarah.m@bahri.sa', managerId: 'e3' },
+  { id: 'e7', name: 'Taher Azadbagh', initials: 'TA', title: 'Chief Planning Officer', department: 'Strategy', floor: 'Floor 8', extension: '8110', email: 'taher.a@bahri.sa', managerId: 'e3' },
+  { id: 'e9', name: 'Mohammed Al-Harbi', initials: 'MH', title: 'Chief Support Officer', department: 'Operations', floor: 'Floor 6', extension: '6015', email: 'm.harbi@bahri.sa', managerId: 'e3' },
+  { id: 'e1', name: 'Anam Amjad', initials: 'AA', title: 'Project Manager', department: 'PMO', floor: 'Floor 5', extension: '5120', email: 'anam@bahri.sa', managerId: 'e7' },
+  { id: 'e6', name: 'Khalid Al-Otaibi', initials: 'KO', title: 'Product Lead', department: 'Product', floor: 'Floor 4', extension: '4200', email: 'khalid.o@bahri.sa', managerId: 'e7' },
+  { id: 'e11', name: 'Nadia Farouk', initials: 'NF', title: 'Program Manager', department: 'PMO', floor: 'Floor 5', extension: '5140', email: 'nadia.f@bahri.sa', managerId: 'e7' },
+  { id: 'e4', name: 'Omar Nasser', initials: 'ON', title: 'UX Designer', department: 'Product', floor: 'Floor 4', extension: '4218', email: 'omar.n@bahri.sa', managerId: 'e6' },
+  { id: 'e5', name: 'Layla Hassan', initials: 'LH', title: 'Senior Engineer', department: 'Engineering', floor: 'Floor 4', extension: '4305', email: 'layla.h@bahri.sa', managerId: 'e6' },
+  { id: 'e8', name: 'Fatima Zahra', initials: 'FZ', title: 'QA Lead', department: 'Engineering', floor: 'Floor 4', extension: '4410', email: 'fatima.z@bahri.sa', managerId: 'e6' },
+  { id: 'e10', name: 'Rania Khoury', initials: 'RK', title: 'System Administrator', department: 'IT', floor: 'Floor 3', extension: '3077', email: 'rania.k@bahri.sa', managerId: 'e9' },
 ]
 
 // Demo accounts — sign in with any of these (any password) to see role-based UI.

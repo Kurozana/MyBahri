@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Network, Search, TriangleAlert } from 'lucide-react'
 import { Card, CardHeader } from '@/components/ui/Card'
 import { Skeleton } from '@/components/ui/Skeleton'
@@ -9,6 +10,7 @@ import { cn } from '@/lib/cn'
 const filters = ['All', 'Leadership Team', 'Product Development'] as const
 
 export function OrgStructure() {
+  const navigate = useNavigate()
   const [filter, setFilter] = useState<(typeof filters)[number]>('All')
   const [query, setQuery] = useState('')
   const { data: members, loading, error } = useApi(portalApi.getOrgMembers)
@@ -71,16 +73,21 @@ export function OrgStructure() {
                 </div>
               ))
             : visible.map((m) => (
-                <div
+                <button
                   key={m.id}
+                  type="button"
+                  onClick={() => navigate('/org')}
+                  title="View reporting line"
                   className="group flex flex-col items-center rounded-xl border border-line p-4 text-center transition hover:border-primary-300 hover:shadow-md"
                 >
                   <div className="grid size-14 place-items-center rounded-full bg-gradient-to-br from-primary-500 to-primary-700 text-sm font-bold text-white transition group-hover:scale-105">
                     {m.initials}
                   </div>
-                  <p className="mt-2.5 text-sm font-semibold leading-tight text-content">{m.name}</p>
+                  <p className="mt-2.5 text-sm font-semibold leading-tight text-content group-hover:text-primary-600 dark:group-hover:text-primary-300">
+                    {m.name}
+                  </p>
                   <p className="mt-0.5 text-xs text-subtle">{m.title}</p>
-                </div>
+                </button>
               ))}
         </div>
       )}

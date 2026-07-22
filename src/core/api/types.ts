@@ -30,6 +30,8 @@ export interface EmployeeDto {
   floor: string
   extension: string
   email: string
+  /** id of this person's manager; absent for the top of the org. */
+  managerId?: string
 }
 
 // --- Accounts & permissions ---
