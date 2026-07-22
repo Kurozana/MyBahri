@@ -2,6 +2,7 @@ import { PromotionsBanner } from '@/components/home/PromotionsBanner'
 import { DailyAttendance } from '@/components/home/DailyAttendance'
 import { CeoMessage } from '@/components/home/CeoMessage'
 import { Multimedia } from '@/components/home/Multimedia'
+import { UpcomingMeetings } from '@/components/home/UpcomingMeetings'
 import { QuickActions } from '@/components/home/QuickActions'
 import { MostUsedServices } from '@/components/home/MostUsedServices'
 import { Extensions } from '@/components/home/Extensions'
@@ -38,6 +39,7 @@ export default function HomePage() {
 
         {/* Right column */}
         <div className="space-y-5">
+          <UpcomingMeetings />
           <QuickActions />
           <MostUsedServices />
           <Extensions />

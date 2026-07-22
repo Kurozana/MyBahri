@@ -34,6 +34,18 @@ export interface EmployeeDto {
   managerId?: string
 }
 
+export interface MeetingDto {
+  id: string
+  subject: string
+  start: string // ISO datetime
+  end: string // ISO datetime
+  location?: string
+  organizer?: string
+  isOnline: boolean
+  joinUrl?: string
+  attendees: number
+}
+
 // --- Accounts & permissions ---
 
 export type Role = 'employee' | 'manager' | 'hr' | 'executive' | 'admin'
