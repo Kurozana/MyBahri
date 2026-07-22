@@ -1,19 +1,9 @@
 @echo off
-REM ============================================================
-REM  MyBahri - Development server (fast, hot-reload)
-REM  Double-click to run. Opens http://localhost:5173
-REM ============================================================
+title MyBahri - Dev Server
 cd /d "%~dp0"
-
-if not exist node_modules (
-  echo Installing dependencies (first run only)...
-  call npm install
-)
-
-echo.
-echo Starting MyBahri dev server...
-echo Press Ctrl+C in this window to stop it.
-echo.
+if not exist node_modules call npm install
+echo Starting MyBahri dev server (http://localhost:5173)...
 call npm run dev -- --open
-
-pause
+echo.
+echo Server stopped. Press any key to close.
+pause >nul
