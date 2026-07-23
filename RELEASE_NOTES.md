@@ -18,7 +18,8 @@ Each version below maps to a GitHub Release.
 8. Added an Upcoming Meetings widget — connect your Outlook calendar to see the week's meetings, with quick join links.
 
 ### Improved
-1. Congratulating the Employee of the Month now plays a fun celebration.
+1. Updated the app logo to the official Bahri emblem.
+2. Congratulating the Employee of the Month now plays a fun celebration.
 2. Smoother animation when moving between pages.
 3. Cleaned up the CEO photo on the home page.
 
