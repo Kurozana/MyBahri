@@ -5,6 +5,7 @@ import type {
   TodoStatus,
   EmployeeDto,
   LeaveBalanceDto,
+  ReleaseNoteDto,
 } from '@core/api/types'
 
 /**
@@ -24,4 +25,7 @@ export const portalApi = {
 
   // Leave balance — mocked now; will be sourced from Oracle Fusion via GCP later.
   getLeaveBalance: (signal?: AbortSignal) => apiGet<LeaveBalanceDto>('/leave-balance', signal),
+
+  getReleaseNotes: (signal?: AbortSignal) => apiGet<ReleaseNoteDto[]>('/release-notes', signal),
+  publishReleaseNote: (note: ReleaseNoteDto) => apiPost<ReleaseNoteDto>('/release-notes', note),
 }

@@ -14,6 +14,7 @@ const StubPage = lazy(() => import('@/pages/StubPage'))
 const LoginPage = lazy(() => import('@/pages/LoginPage'))
 const CeoMessagePage = lazy(() => import('@/pages/CeoMessagePage'))
 const OrgHierarchyPage = lazy(() => import('@/pages/OrgHierarchyPage'))
+const ReleaseNotesAdminPage = lazy(() => import('@/pages/ReleaseNotesAdminPage'))
 
 const router = createBrowserRouter(
   [
@@ -44,6 +45,7 @@ const router = createBrowserRouter(
         { index: true, element: <HomePage /> },
         { path: 'ceo-message', element: <CeoMessagePage /> },
         { path: 'org', element: <OrgHierarchyPage /> },
+        { path: 'admin/release-notes', element: <ReleaseNotesAdminPage /> },
         { path: 'workspace', element: <StubPage /> },
         { path: 'knowledge', element: <StubPage /> },
         { path: 'locations', element: <StubPage /> },

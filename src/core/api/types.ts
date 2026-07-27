@@ -34,6 +34,12 @@ export interface EmployeeDto {
   managerId?: string
 }
 
+export interface ReleaseNoteDto {
+  version: string
+  date: string
+  items: string[]
+}
+
 export interface LeaveBalanceDto {
   /** remaining leave days */
   balance: number

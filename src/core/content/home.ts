@@ -120,52 +120,6 @@ export const newsItems = [
   },
 ]
 
-export interface ReleaseNote {
-  version: string
-  date: string
-  items: string[]
-}
-
-/** Newest first. Drives the release-notes header icon + modal. */
-export const releaseNotes: ReleaseNote[] = [
-  {
-    version: '0.2.3',
-    date: 'Jul 27, 2026',
-    items: [
-      'The calendar now opens on the current month and highlights event days.',
-      'Switch the calendar between Hijri and Gregorian.',
-      'Multimedia now has Events, News, and Photo Library tabs.',
-      "Added a What's New button to catch up on updates.",
-    ],
-  },
-  {
-    version: '0.2.2',
-    date: 'Jul 27, 2026',
-    items: [
-      'Added an Upcoming Meetings widget for your Outlook calendar.',
-      'Added a reporting-line view to see where you sit in the org.',
-      'The calendar now opens on the current month and highlights event days.',
-    ],
-  },
-  {
-    version: '0.2.1',
-    date: 'Jul 23, 2026',
-    items: [
-      'Updated the app logo to the official Bahri emblem.',
-      'Added live weather in the top bar.',
-      'Fixed the CEO name shown across the portal.',
-    ],
-  },
-  {
-    version: '0.2.0',
-    date: 'Jul 22, 2026',
-    items: [
-      'Added a new sign-in page with single sign-on.',
-      'Added Employee Lookup and a full CEO message page.',
-      'Congratulating the Employee of the Month now plays a celebration.',
-    ],
-  },
-]
 
 export const employeeOfMonth = {
   name: 'Mohammed Al-Rashid',

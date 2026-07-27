@@ -1,5 +1,44 @@
 import { http, HttpResponse, delay } from 'msw'
-import type { TodoDto, OrgMemberDto, TodoStatus, UserDto, EmployeeDto } from '@core/api/types'
+import type {
+  TodoDto,
+  OrgMemberDto,
+  TodoStatus,
+  UserDto,
+  EmployeeDto,
+  ReleaseNoteDto,
+} from '@core/api/types'
+
+// In-memory release notes (newest first). Admins publish new ones via POST.
+const releaseNotes: ReleaseNoteDto[] = [
+  {
+    version: '0.2.3',
+    date: 'Jul 27, 2026',
+    items: [
+      'The calendar now opens on the current month and highlights event days.',
+      'Switch the calendar between Hijri and Gregorian.',
+      'Multimedia now has Events, News, and Photo Library tabs.',
+      "Added a What's New button to catch up on updates.",
+    ],
+  },
+  {
+    version: '0.2.1',
+    date: 'Jul 23, 2026',
+    items: [
+      'Updated the app logo to the official Bahri emblem.',
+      'Added live weather in the top bar.',
+      'Fixed the CEO name shown across the portal.',
+    ],
+  },
+  {
+    version: '0.2.0',
+    date: 'Jul 22, 2026',
+    items: [
+      'Added a new sign-in page with single sign-on.',
+      'Added Employee Lookup and a full CEO message page.',
+      'Congratulating the Employee of the Month now plays a celebration.',
+    ],
+  },
+]
 
 const employees: EmployeeDto[] = [
   { id: 'e3', name: 'Ahmed Alsubaey', initials: 'AA', title: 'Chief Executive Officer', department: 'Executive', floor: 'Floor 9', extension: '9000', email: 'a.alsubaey@bahri.sa' },
@@ -106,5 +145,17 @@ export const handlers = [
   http.get(`${API}/leave-balance`, async () => {
     await delay(300)
     return HttpResponse.json({ balance: 14, unit: 'days', asOf: new Date().toISOString() })
+  }),
+
+  http.get(`${API}/release-notes`, async () => {
+    await delay(200)
+    return HttpResponse.json(releaseNotes)
+  }),
+
+  http.post(`${API}/release-notes`, async ({ request }) => {
+    await delay(300)
+    const note = (await request.json()) as ReleaseNoteDto
+    releaseNotes.unshift(note)
+    return HttpResponse.json(note, { status: 201 })
   }),
 ]

@@ -1,29 +1,42 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Sparkles } from 'lucide-react'
 import { Modal } from '@/components/ui/Modal'
-import { releaseNotes } from '@core/content/home'
+import { useApi } from '@core/hooks/useApi'
+import { portalApi } from '@core/api/portal'
 import { cn } from '@/lib/cn'
 
 const SEEN_KEY = 'mybahri-seen-release'
 
+/** Dispatched by the admin dashboard after publishing, so the header refreshes. */
+export const RELEASE_NOTES_UPDATED = 'release-notes:updated'
+
 export function ReleaseNotesButton() {
+  const { data, refetch } = useApi(portalApi.getReleaseNotes)
+  const notes = data ?? []
   const [open, setOpen] = useState(false)
   const [seen, setSeen] = useState<string | null>(() => localStorage.getItem(SEEN_KEY))
   const [tab, setTab] = useState<'current' | 'history'>('current')
 
-  // Releases newer than the last one the user viewed.
-  const seenIdx = releaseNotes.findIndex((r) => r.version === seen)
-  const unread = seenIdx === -1 ? releaseNotes.length : seenIdx
+  // Refresh when a note is published elsewhere in the app.
+  useEffect(() => {
+    const handler = () => refetch()
+    window.addEventListener(RELEASE_NOTES_UPDATED, handler)
+    return () => window.removeEventListener(RELEASE_NOTES_UPDATED, handler)
+  }, [refetch])
+
+  const seenIdx = notes.findIndex((r) => r.version === seen)
+  const unread = notes.length === 0 ? 0 : seenIdx === -1 ? notes.length : seenIdx
 
   const openModal = () => {
     setOpen(true)
     setTab('current')
-    const latest = releaseNotes[0].version
-    localStorage.setItem(SEEN_KEY, latest)
-    setSeen(latest) // clears the unread state
+    if (notes[0]) {
+      localStorage.setItem(SEEN_KEY, notes[0].version)
+      setSeen(notes[0].version)
+    }
   }
 
-  const latest = releaseNotes[0]
+  const latest = notes[0]
 
   return (
     <>
@@ -38,7 +51,7 @@ export function ReleaseNotesButton() {
             : 'border-line bg-surface text-muted hover:bg-surface-2',
         )}
       >
-        <Sparkles className={cn('size-[18px]', unread > 0 && 'drop-shadow-[0_0_6px_var(--color-primary-400)]')} />
+        <Sparkles className="size-[18px]" />
         {unread > 0 && (
           <span className="absolute -right-1 -top-1 grid h-4 min-w-4 place-items-center rounded-full bg-primary-600 px-1 text-[10px] font-bold text-white">
             {unread}
@@ -71,10 +84,14 @@ export function ReleaseNotesButton() {
           </div>
 
           {tab === 'current' ? (
-            <ReleaseBlock version={latest.version} date={latest.date} items={latest.items} />
+            latest ? (
+              <ReleaseBlock version={latest.version} date={latest.date} items={latest.items} />
+            ) : (
+              <p className="py-6 text-center text-sm text-subtle">No release notes yet.</p>
+            )
           ) : (
             <div className="max-h-[50vh] space-y-5 overflow-y-auto pr-1">
-              {releaseNotes.map((r) => (
+              {notes.map((r) => (
                 <ReleaseBlock key={r.version} version={r.version} date={r.date} items={r.items} />
               ))}
             </div>

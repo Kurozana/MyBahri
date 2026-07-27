@@ -102,7 +102,7 @@ export function Header() {
                     <button
                       onClick={() => {
                         setOpen(false)
-                        toast('Content Studio — coming soon', 'info')
+                        navigate('/admin/release-notes')
                       }}
                       className="flex w-full items-center gap-2.5 rounded-xl px-2.5 py-2 text-sm text-content transition hover:bg-surface-2"
                     >
