@@ -34,6 +34,13 @@ export interface EmployeeDto {
   managerId?: string
 }
 
+export interface LeaveBalanceDto {
+  /** remaining leave days */
+  balance: number
+  unit: string
+  asOf: string
+}
+
 export interface MeetingDto {
   id: string
   subject: string

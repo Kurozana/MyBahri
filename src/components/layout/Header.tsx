@@ -4,6 +4,7 @@ import { Bell, ChevronDown, Cloud, IdCard, LogOut, Palette, ShieldAlert } from '
 import { BahriLogo } from '@/components/ui/BahriLogo'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
 import { OccasionSwitcher } from '@/components/ui/OccasionSwitcher'
+import { ReleaseNotesButton } from '@/components/layout/ReleaseNotesButton'
 import { Can } from '@/components/auth/Can'
 import { useAuth } from '@/hooks/useAuth'
 import { useToast } from '@/components/ui/Toast'
@@ -46,6 +47,7 @@ export function Header() {
           </button>
 
           <OccasionSwitcher />
+          <ReleaseNotesButton />
           <ThemeToggle />
 
           <button className="grid size-9 place-items-center rounded-full border border-line bg-surface text-primary-600 transition hover:bg-surface-2 dark:text-primary-400">

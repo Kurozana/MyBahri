@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Network, Search, TriangleAlert } from 'lucide-react'
+import { Network, Search, TriangleAlert, RefreshCw } from 'lucide-react'
 import { Card, CardHeader } from '@/components/ui/Card'
 import { Skeleton } from '@/components/ui/Skeleton'
 import { useApi } from '@core/hooks/useApi'
@@ -13,7 +13,7 @@ export function OrgStructure() {
   const navigate = useNavigate()
   const [filter, setFilter] = useState<(typeof filters)[number]>('All')
   const [query, setQuery] = useState('')
-  const { data: members, loading, error } = useApi(portalApi.getOrgMembers)
+  const { data: members, loading, error, refetch } = useApi(portalApi.getOrgMembers)
 
   const visible = (members ?? [])
     .filter((m) => filter === 'All' || m.team === filter)
@@ -56,8 +56,20 @@ export function OrgStructure() {
       </div>
 
       {error ? (
-        <div className="mt-5 flex items-center gap-2 rounded-xl bg-rose-50 p-3.5 text-sm text-rose-600 dark:bg-rose-400/10 dark:text-rose-300">
-          <TriangleAlert className="size-4" /> Couldn't load the org directory.
+        <div className="mt-5 flex flex-col items-center gap-3 rounded-xl border border-line bg-rose-50/60 p-6 text-center dark:bg-rose-400/5">
+          <span className="grid size-10 place-items-center rounded-full bg-rose-100 text-rose-600 dark:bg-rose-400/15 dark:text-rose-300">
+            <TriangleAlert className="size-5" />
+          </span>
+          <div>
+            <p className="text-sm font-semibold text-content">Couldn't load the org directory</p>
+            <p className="mt-0.5 text-xs text-subtle">Check your connection and try again.</p>
+          </div>
+          <button
+            onClick={refetch}
+            className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-primary-500 to-primary-700 px-4 py-2 text-sm font-semibold text-white transition hover:brightness-105"
+          >
+            <RefreshCw className="size-4" /> Try again
+          </button>
         </div>
       ) : (
         <div className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">

@@ -5,6 +5,26 @@ Each version below maps to a GitHub Release.
 
 ---
 
+## v0.2.3
+
+### New
+1. Multimedia now has separate tabs for Events, News, and a Photo Library (coming soon).
+2. The calendar highlights days that have events, and hovering a day shows the event name.
+3. You can now switch the main calendar between Hijri and Gregorian.
+4. Added a "What's New" button in the top bar that shows the latest updates and their history, with a badge for unread updates.
+5. The side navigation now expands to show page names when you hover it.
+
+### Improved
+1. Your leave balance now comes from the system instead of a fixed number.
+
+### Fixed
+1. The attendance card now always shows today's date.
+2. The multimedia calendar now opens on the current month instead of a fixed one.
+3. Event days now show as highlighted on the calendar.
+4. The org directory now retries and shows a clear "Try again" option if it can't load.
+
+---
+
 ## v0.2.0
 
 ### New

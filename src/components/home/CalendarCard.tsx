@@ -2,10 +2,32 @@ import { useState } from 'react'
 import { CalendarDays, ChevronLeft, ChevronRight, Clock } from 'lucide-react'
 import { Card } from '@/components/ui/Card'
 import { MiniCalendar } from '@/components/ui/MiniCalendar'
+import { events } from '@core/content/home'
+import { getMonthGrid, dayNumberInGrid, shiftMonthAnchor, type CalendarSystem } from '@/lib/calendar'
 import { cn } from '@/lib/cn'
 
+const MODES: { label: string; system: CalendarSystem }[] = [
+  { label: 'Hijri', system: 'islamic-umalqura' },
+  { label: 'Gregorian', system: 'gregory' },
+]
+
+function toISO(d: Date) {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+}
+
 export function CalendarCard() {
-  const [mode, setMode] = useState<'Hijri' | 'Gregorian'>('Gregorian')
+  const [system, setSystem] = useState<CalendarSystem>('gregory')
+  const [anchor, setAnchor] = useState<Date>(() => new Date())
+
+  const today = new Date()
+  const grid = getMonthGrid(anchor, system)
+
+  // Portal events + today's standup, marked on the calendar with hover tooltips.
+  const allEvents = [...events, { dateISO: toISO(today), title: 'Team Standup' }]
+  const monthEvents = allEvents
+    .map((ev) => ({ day: dayNumberInGrid(grid, new Date(`${ev.dateISO}T00:00:00`)), title: ev.title }))
+    .filter((x): x is { day: number; title: string } => x.day !== null)
+  const todayNum = dayNumberInGrid(grid, today) ?? undefined
 
   return (
     <Card>
@@ -18,38 +40,51 @@ export function CalendarCard() {
           <ChevronRight className="size-4 text-subtle" />
         </div>
         <span className="grid size-6 place-items-center rounded-full bg-accent-soft text-xs font-bold text-primary-600 dark:text-primary-300">
-          5
+          {monthEvents.length}
         </span>
       </div>
 
       <div className="mt-4 flex items-center justify-between">
         <div className="flex items-center gap-1">
-          <button className="grid size-6 place-items-center rounded text-subtle hover:bg-surface-2">
+          <button
+            onClick={() => setAnchor(shiftMonthAnchor(grid, -1))}
+            className="grid size-6 place-items-center rounded text-subtle hover:bg-surface-2"
+          >
             <ChevronLeft className="size-4" />
           </button>
-          <span className="text-sm font-bold text-content">May 2026</span>
-          <button className="grid size-6 place-items-center rounded text-subtle hover:bg-surface-2">
+          <span className="min-w-32 text-center text-sm font-bold text-content">{grid.label}</span>
+          <button
+            onClick={() => setAnchor(shiftMonthAnchor(grid, 1))}
+            className="grid size-6 place-items-center rounded text-subtle hover:bg-surface-2"
+          >
             <ChevronRight className="size-4" />
           </button>
         </div>
         <div className="flex gap-1 rounded-lg bg-surface-2 p-0.5 text-xs font-semibold">
-          {(['Hijri', 'Gregorian'] as const).map((m) => (
+          {MODES.map((m) => (
             <button
-              key={m}
-              onClick={() => setMode(m)}
+              key={m.system}
+              onClick={() => setSystem(m.system)}
               className={cn(
                 'rounded-md px-2.5 py-1 transition',
-                mode === m ? 'bg-surface text-primary-600 shadow-sm dark:text-primary-300' : 'text-muted',
+                system === m.system
+                  ? 'bg-surface text-primary-600 shadow-sm dark:text-primary-300'
+                  : 'text-muted',
               )}
             >
-              {m}
+              {m.label}
             </button>
           ))}
         </div>
       </div>
 
       <div className="mt-3">
-        <MiniCalendar startOffset={5} daysInMonth={31} today={19} marked={[20, 25]} />
+        <MiniCalendar
+          startOffset={grid.startOffset}
+          daysInMonth={grid.daysInMonth}
+          today={todayNum}
+          events={monthEvents}
+        />
       </div>
 
       <div className="mt-4 border-t border-line pt-3">

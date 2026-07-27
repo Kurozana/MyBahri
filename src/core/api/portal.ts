@@ -1,5 +1,11 @@
 import { apiGet, apiPost, apiPatch } from '@core/api/client'
-import type { TodoDto, OrgMemberDto, TodoStatus, EmployeeDto } from '@core/api/types'
+import type {
+  TodoDto,
+  OrgMemberDto,
+  TodoStatus,
+  EmployeeDto,
+  LeaveBalanceDto,
+} from '@core/api/types'
 
 /**
  * Portal data service. UI calls these functions and never touches fetch directly,
@@ -15,4 +21,7 @@ export const portalApi = {
   getOrgMembers: (signal?: AbortSignal) => apiGet<OrgMemberDto[]>('/org-members', signal),
 
   getEmployees: (signal?: AbortSignal) => apiGet<EmployeeDto[]>('/employees', signal),
+
+  // Leave balance — mocked now; will be sourced from Oracle Fusion via GCP later.
+  getLeaveBalance: (signal?: AbortSignal) => apiGet<LeaveBalanceDto>('/leave-balance', signal),
 }

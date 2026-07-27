@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import { CalendarDays, ChevronRight, LogIn, LogOut } from 'lucide-react'
 import { Card } from '@/components/ui/Card'
 import { useToast } from '@/components/ui/Toast'
+import { useApi } from '@core/hooks/useApi'
+import { portalApi } from '@core/api/portal'
 import { cn } from '@/lib/cn'
 
 function fmtDuration(totalSeconds: number) {
@@ -18,6 +20,13 @@ function fmtClock(date: Date | null) {
 
 export function DailyAttendance() {
   const toast = useToast()
+  const { data: leave } = useApi(portalApi.getLeaveBalance)
+  const todayLabel = new Date().toLocaleDateString(undefined, {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  })
   const [punchIn, setPunchIn] = useState<Date | null>(null)
   const [punchOut, setPunchOut] = useState<Date | null>(null)
   const [elapsed, setElapsed] = useState(0)
@@ -63,11 +72,13 @@ export function DailyAttendance() {
       <div className="mt-4 grid grid-cols-2 gap-3">
         <div className="rounded-xl bg-surface-2 p-3">
           <p className="text-[11px] font-medium text-subtle">Today's Date</p>
-          <p className="mt-1 text-[13px] font-semibold text-content">Monday, May 18, 2026</p>
+          <p className="mt-1 text-[13px] font-semibold text-content">{todayLabel}</p>
         </div>
         <div className="rounded-xl bg-surface-2 p-3">
           <p className="text-[11px] font-medium text-subtle">Leave Balance</p>
-          <p className="mt-1 text-[13px] font-semibold text-content">14.00</p>
+          <p className="mt-1 text-[13px] font-semibold text-content">
+            {leave ? `${leave.balance.toFixed(2)} ${leave.unit}` : '—'}
+          </p>
         </div>
       </div>
 

@@ -64,18 +64,106 @@ export const ceoMessage = {
   ],
 }
 
-export const events = [
+export interface PortalEvent {
+  title: string
+  /** ISO date (yyyy-mm-dd) used for calendar marking/highlighting */
+  dateISO: string
+  date: string
+  time: string
+  location: string
+  attending: number
+}
+
+export const events: PortalEvent[] = [
   {
+    title: 'Annual Town Hall',
+    dateISO: '2026-06-15',
     date: 'June 15, 2026',
     time: '9:00 AM - 5:00 PM',
     location: 'Bahri HQ Auditorium',
     attending: 145,
   },
   {
+    title: 'Summer Family Day',
+    dateISO: '2026-06-22',
     date: 'June 22, 2026',
     time: '2:00 PM - 6:00 PM',
     location: 'Outdoor Recreation Center',
     attending: 89,
+  },
+  {
+    title: 'Safety Awareness Day',
+    dateISO: '2026-08-10',
+    date: 'August 10, 2026',
+    time: '10:00 AM - 1:00 PM',
+    location: 'Bahri HQ Auditorium',
+    attending: 60,
+  },
+]
+
+export const newsItems = [
+  {
+    title: 'Bahri reports record Q1 fleet efficiency',
+    date: 'Sep 16, 2025',
+    summary:
+      'Operational efficiency up 23% year-on-year with outstanding safety records across all fleets.',
+  },
+  {
+    title: 'New crew welfare program launched',
+    date: 'Sep 2, 2025',
+    summary: 'Expanded health, family and learning benefits now available to all seafaring staff.',
+  },
+  {
+    title: 'Bahri signs new logistics partnership',
+    date: 'Aug 20, 2025',
+    summary: 'A strategic agreement expanding our reach across key regional trade routes.',
+  },
+]
+
+export interface ReleaseNote {
+  version: string
+  date: string
+  items: string[]
+}
+
+/** Newest first. Drives the release-notes header icon + modal. */
+export const releaseNotes: ReleaseNote[] = [
+  {
+    version: '0.2.3',
+    date: 'Jul 27, 2026',
+    items: [
+      'The calendar now opens on the current month and highlights event days.',
+      'Switch the calendar between Hijri and Gregorian.',
+      'Multimedia now has Events, News, and Photo Library tabs.',
+      "Added a What's New button to catch up on updates.",
+    ],
+  },
+  {
+    version: '0.2.2',
+    date: 'Jul 27, 2026',
+    items: [
+      'Added an Upcoming Meetings widget for your Outlook calendar.',
+      'Added a reporting-line view to see where you sit in the org.',
+      'The calendar now opens on the current month and highlights event days.',
+    ],
+  },
+  {
+    version: '0.2.1',
+    date: 'Jul 23, 2026',
+    items: [
+      'Updated the app logo to the official Bahri emblem.',
+      'Added live weather in the top bar.',
+      'Fixed the CEO name shown across the portal.',
+    ],
+  },
+  {
+    version: '0.2.0',
+    date: 'Jul 22, 2026',
+    items: [
+      'Added a new sign-in page with single sign-on.',
+      'Added Employee Lookup and a full CEO message page.',
+      'Congratulating the Employee of the Month now plays a celebration.',
+    ],
   },
 ]
 

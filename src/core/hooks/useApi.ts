@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 type ApiState<T> = {
   data: T | undefined
@@ -6,32 +6,55 @@ type ApiState<T> = {
   error: Error | undefined
 }
 
+type UseApiResult<T> = ApiState<T> & { refetch: () => void }
+
 /**
- * Minimal typed data-fetching hook. Uses only React (shared by web + React Native),
- * so it lives in the portable core. When the app grows, swap for TanStack Query —
- * call sites barely change because the service layer isolates fetching.
+ * Minimal typed data-fetching hook. Uses only React (shared by web + React
+ * Native). Auto-retries transient failures once, and exposes refetch() for a
+ * manual retry. Swap for TanStack Query when the app grows.
  */
-export function useApi<T>(fetcher: (signal: AbortSignal) => Promise<T>): ApiState<T> {
+export function useApi<T>(
+  fetcher: (signal: AbortSignal) => Promise<T>,
+  options?: { retries?: number },
+): UseApiResult<T> {
+  const retries = options?.retries ?? 1
   const [state, setState] = useState<ApiState<T>>({
     data: undefined,
     loading: true,
     error: undefined,
   })
+  const [nonce, setNonce] = useState(0)
+  const refetch = useCallback(() => setNonce((n) => n + 1), [])
 
   useEffect(() => {
     const controller = new AbortController()
-    setState({ data: undefined, loading: true, error: undefined })
+    let cancelled = false
+    let attempt = 0
 
-    fetcher(controller.signal)
-      .then((data) => setState({ data, loading: false, error: undefined }))
-      .catch((err: unknown) => {
-        if (controller.signal.aborted) return
-        setState({ data: undefined, loading: false, error: err as Error })
-      })
+    const run = () => {
+      setState((s) => ({ ...s, loading: true, error: undefined }))
+      fetcher(controller.signal)
+        .then((data) => {
+          if (!cancelled) setState({ data, loading: false, error: undefined })
+        })
+        .catch((err: unknown) => {
+          if (cancelled || controller.signal.aborted) return
+          if (attempt < retries) {
+            attempt += 1
+            setTimeout(run, 400 * attempt) // brief backoff before retrying
+          } else {
+            setState({ data: undefined, loading: false, error: err as Error })
+          }
+        })
+    }
 
-    return () => controller.abort()
+    run()
+    return () => {
+      cancelled = true
+      controller.abort()
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [nonce])
 
-  return state
+  return { ...state, refetch }
 }

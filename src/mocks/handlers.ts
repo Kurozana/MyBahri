@@ -102,4 +102,9 @@ export const handlers = [
     await delay(300)
     return HttpResponse.json(employees)
   }),
+
+  http.get(`${API}/leave-balance`, async () => {
+    await delay(300)
+    return HttpResponse.json({ balance: 14, unit: 'days', asOf: new Date().toISOString() })
+  }),
 ]
