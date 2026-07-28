@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { ClipboardList, Plus, Clock, Filter, TriangleAlert, Check, X } from 'lucide-react'
+import { ClipboardList, Plus, Clock, Filter, TriangleAlert, Check, X, RefreshCw } from 'lucide-react'
 import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Skeleton } from '@/components/ui/Skeleton'
@@ -14,7 +14,7 @@ const filters = ['All', 'Pending', 'Approved'] as const
 export function TodoList() {
   const toast = useToast()
   const [filter, setFilter] = useState<(typeof filters)[number]>('All')
-  const { data, loading, error } = useApi(portalApi.getTodos)
+  const { data, loading, error, refetch } = useApi(portalApi.getTodos)
 
   const [items, setItems] = useState<TodoDto[]>([])
   const [adding, setAdding] = useState(false)
@@ -110,8 +110,16 @@ export function TodoList() {
           ))}
 
         {error && (
-          <div className="flex items-center gap-2 rounded-xl bg-rose-50 p-3.5 text-sm text-rose-600 dark:bg-rose-400/10 dark:text-rose-300">
-            <TriangleAlert className="size-4" /> Couldn't load your tasks. Please try again.
+          <div className="flex items-center justify-between gap-2 rounded-xl bg-rose-50 p-3.5 text-sm text-rose-600 dark:bg-rose-400/10 dark:text-rose-300">
+            <span className="flex items-center gap-2">
+              <TriangleAlert className="size-4" /> Couldn't load your tasks.
+            </span>
+            <button
+              onClick={refetch}
+              className="inline-flex items-center gap-1.5 font-semibold underline underline-offset-2"
+            >
+              <RefreshCw className="size-3.5" /> Try again
+            </button>
           </div>
         )}
 

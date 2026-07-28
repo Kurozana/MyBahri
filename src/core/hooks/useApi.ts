@@ -17,7 +17,9 @@ export function useApi<T>(
   fetcher: (signal: AbortSignal) => Promise<T>,
   options?: { retries?: number },
 ): UseApiResult<T> {
-  const retries = options?.retries ?? 1
+  // Default to a few retries with backoff so transient startup failures
+  // (e.g. the mock service worker not yet active on first load) self-heal.
+  const retries = options?.retries ?? 3
   const [state, setState] = useState<ApiState<T>>({
     data: undefined,
     loading: true,
@@ -41,7 +43,7 @@ export function useApi<T>(
           if (cancelled || controller.signal.aborted) return
           if (attempt < retries) {
             attempt += 1
-            setTimeout(run, 400 * attempt) // brief backoff before retrying
+            setTimeout(run, 400 * 2 ** (attempt - 1)) // exponential backoff: 400/800/1600ms
           } else {
             setState({ data: undefined, loading: false, error: err as Error })
           }
