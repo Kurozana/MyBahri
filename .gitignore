@@ -38,3 +38,6 @@ Thumbs.db
 
 # Intermediate asset extraction (regenerated from the Figma SVG when needed)
 extracted_assets/
+
+# Issue/debug screenshots — not part of the app
+Issues/
