@@ -11,15 +11,6 @@ import type {
 // In-memory release notes (newest first). Admins publish new ones via POST.
 const releaseNotes: ReleaseNoteDto[] = [
   {
-    version: '0.2.4',
-    date: 'Jul 28, 2026',
-    items: [
-      'Admins can now publish release notes right from the portal (Content Studio).',
-      'The side navigation no longer covers the page when it expands.',
-      "Fixed pages sometimes showing \"couldn't load\" on first open.",
-    ],
-  },
-  {
     version: '0.2.3',
     date: 'Jul 27, 2026',
     items: [

@@ -7,9 +7,6 @@ Each version below maps to a GitHub Release.
 
 ## v0.2.4
 
-### New
-1. Admins can now write and publish release notes right from the portal (Content Studio) — the "What's New" button updates for everyone.
-
 ### Improved
 1. The side navigation now gently pushes the page aside when it expands, so it never covers your content.
 
