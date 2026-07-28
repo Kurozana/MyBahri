@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Bell, ChevronDown, Cloud, IdCard, LogOut, Palette, ShieldAlert } from 'lucide-react'
+import { Bell, ChevronDown, Cloud, IdCard, LogOut, Rocket, ShieldAlert } from 'lucide-react'
 import { BahriLogo } from '@/components/ui/BahriLogo'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
 import { OccasionSwitcher } from '@/components/ui/OccasionSwitcher'
@@ -106,7 +106,7 @@ export function Header() {
                       }}
                       className="flex w-full items-center gap-2.5 rounded-xl px-2.5 py-2 text-sm text-content transition hover:bg-surface-2"
                     >
-                      <Palette className="size-4 text-primary-500" /> Content Studio
+                      <Rocket className="size-4 text-primary-500" /> Release Management
                     </button>
                   </Can>
                   <Can permission="admin.access">
