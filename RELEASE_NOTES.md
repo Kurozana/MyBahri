@@ -5,6 +5,19 @@ Each version below maps to a GitHub Release.
 
 ---
 
+## v0.2.4
+
+### New
+1. Admins can now write and publish release notes right from the portal (Content Studio) — the "What's New" button updates for everyone.
+
+### Improved
+1. The side navigation now gently pushes the page aside when it expands, so it never covers your content.
+
+### Fixed
+1. Fixed pages and widgets (like Tasks and the org directory) occasionally showing "couldn't load" on first open — they now load reliably, with a "Try again" option if anything hiccups.
+
+---
+
 ## v0.2.3
 
 ### New
