@@ -40,8 +40,8 @@ Each version below maps to a GitHub Release.
 ### Improved
 1. Updated the app logo to the official Bahri emblem.
 2. Congratulating the Employee of the Month now plays a fun celebration.
-2. Smoother animation when moving between pages.
-3. Cleaned up the CEO photo on the home page.
+3. Smoother animation when moving between pages.
+4. Cleaned up the CEO photo on the home page.
 
 ### Fixed
 1. Corrected the CEO's name shown across the portal.
