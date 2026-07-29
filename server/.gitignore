@@ -1,0 +1,11 @@
+node_modules/
+dist/
+
+# Env & local SQLite database
+.env
+*.db
+*.db-journal
+dev.db*
+
+# Logs
+*.log

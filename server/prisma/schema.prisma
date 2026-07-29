@@ -1,0 +1,59 @@
+// Dev uses SQLite for zero-infra local runs. For staging/prod, switch
+// `provider` to "postgresql" and point DATABASE_URL at Postgres — the models
+// below are written to be portable (no SQLite-only features).
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  initials     String
+  role         String // employee | manager | hr | executive | admin
+  title        String
+  department   String
+  leaveBalance Float    @default(14)
+  todos        Todo[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Employee {
+  id         String     @id @default(cuid())
+  name       String
+  initials   String
+  title      String
+  department String
+  floor      String
+  extension  String
+  email      String     @unique
+  team       String // 'Leadership Team' | 'Product Development'
+  managerId  String?
+  manager    Employee?  @relation("Reports", fields: [managerId], references: [id])
+  reports    Employee[] @relation("Reports")
+}
+
+model Todo {
+  id        String   @id @default(cuid())
+  title     String
+  when      String
+  status    String // 'Pending Approval' | 'Completed'
+  ownerId   String
+  owner     User     @relation(fields: [ownerId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model ReleaseNote {
+  id        String   @id @default(cuid())
+  version   String   @unique
+  date      String
+  items     String // JSON-encoded string[]
+  createdAt DateTime @default(now())
+}
