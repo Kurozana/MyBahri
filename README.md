@@ -11,17 +11,48 @@ some services.
 - **Vite** — fast dev server & optimized production builds
 - **Tailwind CSS v4** — design tokens live in `src/index.css` (`@theme`)
 - **React Router v7** — code-split routes (each page is its own lazy chunk)
-- **MSW (dev only)** — mock API layer so pages can be built before the Mendix
-  backend is wired up. Excluded from production builds.
+- **MSW** — mock API layer (opt-in via `VITE_ENABLE_MOCKS`) for offline UI work
+  and the Pages demo build.
+- **Backend: NestJS + Prisma** (`server/`) — real JWT auth, RBAC, SQLite in dev
+  (Postgres-ready). See the Backend section below.
 
 ## Getting started
 
 ```bash
 npm install
-npm run dev      # http://localhost:5173
-npm run build    # typecheck + production build into dist/
-npm run preview  # serve the production build locally
+npm run dev       # web against the REAL backend (needs the API running, see below)
+npm run dev:mock  # web on mock data only (no backend) — same as dev-mock.bat
+npm run build     # typecheck + production build into dist/
 ```
+
+On Windows just double-click:
+- **`api.bat`** — starts the backend (`server/`) on http://localhost:3000
+- **`dev.bat`** — starts the web app against the real backend (run `api.bat` first)
+- **`dev-mock.bat`** — starts the web app on mock data, no backend needed
+
+## Backend (`server/`)
+
+A **NestJS + Prisma** API. Dev uses **SQLite** (zero-infra); switch the
+`schema.prisma` datasource to `postgresql` + set `DATABASE_URL` for staging/prod.
+
+```bash
+cd server
+npm install
+npx prisma migrate dev          # create/upgrade the DB
+npx tsx prisma/seed.ts          # seed demo users, employees, release notes
+npm run start:dev               # http://localhost:3000/api
+```
+
+- Auth is **JWT** (`POST /api/auth/login`, `GET /api/auth/me`), passwords hashed
+  with bcrypt. **RBAC** via a role→permission map + guards.
+- Demo accounts (all password **`demo1234`**): `anam@bahri.sa` (Manager),
+  `hr@bahri.sa` (HR), `exec@bahri.sa` (Executive), `employee@bahri.sa` (Employee),
+  `admin@bahri.sa` (Admin).
+- Note: behind a corporate proxy, Prisma engine downloads may need
+  `NODE_TLS_REJECT_UNAUTHORIZED=0` (or the corporate CA via `NODE_EXTRA_CA_CERTS`).
+
+The web app reaches the API through a Vite dev proxy (`/api` → `:3000`), so no
+CORS setup is needed locally.
 
 ## Project structure
 
