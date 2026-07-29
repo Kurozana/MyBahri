@@ -54,7 +54,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     applySession(token, u)
   }
 
-  const ssoLogin = () => login('anam@bahri.sa', 'sso')
+  // Demo shortcut until real Microsoft SSO is wired: signs in the manager account.
+  const ssoLogin = () => login('anam@bahri.sa', 'demo1234')
 
   const logout = () => {
     localStorage.removeItem(TOKEN_KEY)

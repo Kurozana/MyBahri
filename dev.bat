@@ -1,9 +1,8 @@
 @echo off
-title MyBahri - Dev Server
+title MyBahri - Web (real backend)
 cd /d "%~dp0"
 if not exist node_modules call npm install
-echo Starting MyBahri dev server (http://localhost:5173)...
+echo NOTE: start the API first (double-click api.bat) - this app talks to http://localhost:3000
+echo Starting MyBahri web (real backend)...
 call npm run dev -- --open
-echo.
-echo Server stopped. Press any key to close.
 pause >nul

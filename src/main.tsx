@@ -10,8 +10,10 @@ import { configureApi } from '@core/api/client'
 configureApi(import.meta.env.VITE_API_BASE_URL ?? `${import.meta.env.BASE_URL}api`)
 
 async function bootstrap() {
-  // Start Mock Service Worker in dev, and in the Pages demo build (VITE_ENABLE_MOCKS).
-  if (import.meta.env.DEV || import.meta.env.VITE_ENABLE_MOCKS === 'true') {
+  // Mocks are opt-in now that there's a real backend: on only when
+  // VITE_ENABLE_MOCKS=true (the Pages demo build, or `npm run dev:mock`).
+  // Otherwise the app talks to the real API (proxied to the backend in dev).
+  if (import.meta.env.VITE_ENABLE_MOCKS === 'true') {
     const { enableMocking } = await import('./mocks/browser')
     await enableMocking()
   }

@@ -9,6 +9,11 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig(({ mode }) => ({
   base: mode === 'production' ? '/MyBahri/' : '/',
   plugins: [react(), tailwindcss()],
+  // In dev, proxy API calls to the NestJS backend (avoids CORS; keeps the
+  // front-end calling its default '/api' base).
+  server: {
+    proxy: { '/api': 'http://localhost:3000' },
+  },
   resolve: {
     alias: {
       // Portable, framework-agnostic layer — no DOM/web deps. Designed to lift
