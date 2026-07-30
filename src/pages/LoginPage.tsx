@@ -15,6 +15,7 @@ import {
 } from 'lucide-react'
 import { BahriLogo } from '@/components/ui/BahriLogo'
 import { useAuth } from '@/hooks/useAuth'
+import { useToast } from '@/components/ui/Toast'
 import { cn } from '@/lib/cn'
 
 const highlights = [
@@ -23,16 +24,10 @@ const highlights = [
   { icon: Sparkles, title: 'Everything Bahri', desc: 'Services, people and news in one place.' },
 ]
 
-const demoAccounts = [
-  { email: 'anam@bahri.sa', role: 'Manager' },
-  { email: 'hr@bahri.sa', role: 'HR' },
-  { email: 'exec@bahri.sa', role: 'Executive' },
-  { email: 'admin@bahri.sa', role: 'Admin' },
-]
-
 export default function LoginPage() {
   const navigate = useNavigate()
-  const { status, login, ssoLogin } = useAuth()
+  const { status, login } = useAuth()
+  const toast = useToast()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPw, setShowPw] = useState(false)
@@ -55,7 +50,7 @@ export default function LoginPage() {
 
   const signIn = (e?: React.FormEvent) => {
     e?.preventDefault()
-    run(() => login(email || 'anam@bahri.sa', password))
+    run(() => login(email, password))
   }
 
   return (
@@ -113,7 +108,7 @@ export default function LoginPage() {
           <p className="mt-1.5 text-sm text-muted">Sign in to continue to your portal.</p>
 
           <button
-            onClick={() => run(ssoLogin)}
+            onClick={() => toast('Single sign-on isn’t set up yet — sign in with email.', 'info')}
             disabled={busy}
             className="mt-7 flex w-full items-center justify-center gap-2.5 rounded-xl bg-gradient-to-r from-primary-500 to-primary-700 py-3 text-sm font-semibold text-white shadow-sm transition hover:brightness-105 active:scale-[0.99] disabled:opacity-60"
           >
@@ -192,25 +187,7 @@ export default function LoginPage() {
             </button>
           </form>
 
-          {/* Demo helper — remove once real SSO is connected */}
-          <div className="mt-6 rounded-xl border border-dashed border-line bg-surface-2/60 p-3">
-            <p className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-subtle">
-              Demo accounts (any password)
-            </p>
-            <div className="flex flex-wrap gap-1.5">
-              {demoAccounts.map((a) => (
-                <button
-                  key={a.email}
-                  onClick={() => setEmail(a.email)}
-                  className="rounded-full border border-line px-2.5 py-1 text-xs font-medium text-muted transition hover:border-primary-300 hover:text-primary-600 dark:hover:text-primary-300"
-                >
-                  {a.role}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <p className="mt-6 flex items-center justify-center gap-1.5 text-xs text-subtle">
+          <p className="mt-8 flex items-center justify-center gap-1.5 text-xs text-subtle">
             <LifeBuoy className="size-3.5" />
             Trouble signing in? Contact the IT Service Desk.
           </p>

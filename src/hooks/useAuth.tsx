@@ -11,7 +11,6 @@ type AuthContextValue = {
   user: UserDto | null
   status: Status
   login: (email: string, password: string) => Promise<void>
-  ssoLogin: () => Promise<void>
   logout: () => void
 }
 
@@ -54,9 +53,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     applySession(token, u)
   }
 
-  // Demo shortcut until real Microsoft SSO is wired: signs in the manager account.
-  const ssoLogin = () => login('anam@bahri.sa', 'demo1234')
-
   const logout = () => {
     localStorage.removeItem(TOKEN_KEY)
     setAuthToken(null)
@@ -65,7 +61,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, status, login, ssoLogin, logout }}>
+    <AuthContext.Provider value={{ user, status, login, logout }}>
       {children}
     </AuthContext.Provider>
   )
