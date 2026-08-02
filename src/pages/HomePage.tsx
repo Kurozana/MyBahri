@@ -11,8 +11,10 @@ import { CalendarCard } from '@/components/home/CalendarCard'
 import { EmployeeOfMonth } from '@/components/home/EmployeeOfMonth'
 import { SocialInsight } from '@/components/home/SocialInsight'
 import { OrgStructure } from '@/components/home/OrgStructure'
+import { useFeatureFlags } from '@/hooks/useAdminSettings'
 
 export default function HomePage() {
+  const flags = useFeatureFlags()
   return (
     <div className="space-y-5">
       <PromotionsBanner />
@@ -33,13 +35,13 @@ export default function HomePage() {
             <CalendarCard />
             <EmployeeOfMonth />
           </div>
-          <SocialInsight />
+          {flags.birthdays && <SocialInsight />}
           <OrgStructure />
         </div>
 
         {/* Right column */}
         <div className="space-y-5">
-          <UpcomingMeetings />
+          {flags.meetings && <UpcomingMeetings />}
           <QuickActions />
           <MostUsedServices />
           <Extensions />

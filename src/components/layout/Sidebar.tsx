@@ -1,9 +1,11 @@
 import { NavLink } from 'react-router-dom'
 import { Bot } from 'lucide-react'
 import { navItems } from '@/config/nav'
+import { useFeatureFlags } from '@/hooks/useAdminSettings'
 import { cn } from '@/lib/cn'
 
 export function Sidebar() {
+  const flags = useFeatureFlags()
   return (
     // Collapsed icon rail that expands on hover to reveal labels. It lives in the
     // layout (not an overlay), so expanding pushes the page content right —
@@ -36,12 +38,14 @@ export function Sidebar() {
         ))}
       </nav>
 
-      <button
-        title="Bahar — AI Assistant"
-        className="ml-1.5 grid size-12 shrink-0 place-items-center rounded-full bg-gradient-to-br from-brand-teal to-brand-cyan text-white shadow-lg shadow-brand-cyan/30 transition hover:scale-105"
-      >
-        <Bot className="size-6" />
-      </button>
+      {flags.bahar && (
+        <button
+          title="Bahar — AI Assistant"
+          className="ml-1.5 grid size-12 shrink-0 place-items-center rounded-full bg-gradient-to-br from-brand-teal to-brand-cyan text-white shadow-lg shadow-brand-cyan/30 transition hover:scale-105"
+        >
+          <Bot className="size-6" />
+        </button>
+      )}
     </aside>
   )
 }

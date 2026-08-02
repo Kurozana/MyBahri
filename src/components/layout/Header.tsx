@@ -7,7 +7,7 @@ import { OccasionSwitcher } from '@/components/ui/OccasionSwitcher'
 import { ReleaseNotesButton } from '@/components/layout/ReleaseNotesButton'
 import { Can } from '@/components/auth/Can'
 import { useAuth } from '@/hooks/useAuth'
-import { useToast } from '@/components/ui/Toast'
+import { useFeatureFlags } from '@/hooks/useAdminSettings'
 import { useApi } from '@core/hooks/useApi'
 import { getWeather, RIYADH } from '@core/api/weather'
 import { roleLabels } from '@core/auth/permissions'
@@ -16,8 +16,8 @@ const fetchWeather = (signal: AbortSignal) => getWeather(RIYADH.lat, RIYADH.lon,
 
 export function Header() {
   const navigate = useNavigate()
-  const toast = useToast()
   const { user, logout } = useAuth()
+  const flags = useFeatureFlags()
   const { data: weather } = useApi(fetchWeather)
   const [open, setOpen] = useState(false)
 
@@ -46,7 +46,7 @@ export function Header() {
             <span className="text-subtle">{RIYADH.city}</span>
           </button>
 
-          <OccasionSwitcher />
+          {flags.seasonalThemes && <OccasionSwitcher />}
           <ReleaseNotesButton />
           <ThemeToggle />
 
@@ -113,7 +113,7 @@ export function Header() {
                     <button
                       onClick={() => {
                         setOpen(false)
-                        toast('Admin Console — coming soon', 'info')
+                        navigate('/admin')
                       }}
                       className="flex w-full items-center gap-2.5 rounded-xl px-2.5 py-2 text-sm text-content transition hover:bg-surface-2"
                     >

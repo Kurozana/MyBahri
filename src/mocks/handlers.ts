@@ -6,7 +6,53 @@ import type {
   UserDto,
   EmployeeDto,
   ReleaseNoteDto,
+  AdminUserDto,
+  AuditEntryDto,
+  AnalyticsDto,
+  NotificationDto,
 } from '@core/api/types'
+
+// --- Admin console (mock demo data) ---
+const adminUsers: AdminUserDto[] = [
+  { id: 'au1', name: 'Sysadmin', email: 'admin@bahri.sa', role: 'admin', status: 'active', lastActive: 'Just now' },
+  { id: 'au2', name: 'Anam Amjad', email: 'anam@bahri.sa', role: 'manager', status: 'active', lastActive: '2h ago' },
+  { id: 'au3', name: 'Sarah Al-Mansour', email: 'hr@bahri.sa', role: 'hr', status: 'active', lastActive: 'Yesterday' },
+  { id: 'au4', name: 'Ahmed Alsubaey', email: 'exec@bahri.sa', role: 'executive', status: 'active', lastActive: '3d ago' },
+  { id: 'au5', name: 'Omar Nasser', email: 'employee@bahri.sa', role: 'employee', status: 'disabled', lastActive: '2w ago' },
+]
+
+const auditLog: AuditEntryDto[] = [
+  { id: 'a1', at: '2026-08-02 09:14', actor: 'Sysadmin', action: 'Enabled maintenance mode', target: 'Settings' },
+  { id: 'a2', at: '2026-08-02 08:40', actor: 'Sarah Al-Mansour', action: 'Published release notes v0.2.4', target: 'Release Notes' },
+  { id: 'a3', at: '2026-08-01 16:22', actor: 'Sysadmin', action: 'Disabled account', target: 'employee@bahri.sa' },
+  { id: 'a4', at: '2026-08-01 11:05', actor: 'Anam Amjad', action: 'Approved leave request', target: 'Workflow #1204' },
+  { id: 'a5', at: '2026-07-31 14:30', actor: 'Sysadmin', action: 'Changed role to HR', target: 'hr@bahri.sa' },
+]
+
+const analytics: AnalyticsDto = {
+  totalUsers: 1000,
+  activeToday: 268,
+  punchesToday: 241,
+  requestsThisWeek: 87,
+  mostUsedServices: [
+    { name: 'Leave Request', count: 342 },
+    { name: 'Meeting Room Booking', count: 210 },
+    { name: 'Digital Card', count: 158 },
+    { name: 'IT Support', count: 97 },
+    { name: 'Pantry Request', count: 64 },
+  ],
+  topEvents: [
+    { name: 'Annual Town Hall', registered: 145 },
+    { name: 'Summer Family Day', registered: 89 },
+    { name: 'Safety Awareness Day', registered: 60 },
+  ],
+}
+
+const notifications: NotificationDto[] = [
+  { id: 'n1', title: 'System maintenance tonight', body: 'The portal will be briefly unavailable at 11 PM.', audience: 'All staff', sentAt: '2026-08-01 17:00' },
+  { id: 'n2', title: 'New leave policy', body: 'The updated annual leave policy is now in effect.', audience: 'All staff', sentAt: '2026-07-28 10:15' },
+]
+let notifSeq = 10
 
 // In-memory release notes (newest first). Admins publish new ones via POST.
 const releaseNotes: ReleaseNoteDto[] = [
@@ -157,5 +203,48 @@ export const handlers = [
     const note = (await request.json()) as ReleaseNoteDto
     releaseNotes.unshift(note)
     return HttpResponse.json(note, { status: 201 })
+  }),
+
+  // --- Admin console ---
+  http.get(`${API}/admin/users`, async () => {
+    await delay(300)
+    return HttpResponse.json(adminUsers)
+  }),
+  http.patch(`${API}/admin/users/:id`, async ({ params, request }) => {
+    await delay(200)
+    const patch = (await request.json()) as Partial<AdminUserDto>
+    const user = adminUsers.find((u) => u.id === params.id)
+    if (!user) return new HttpResponse(null, { status: 404 })
+    Object.assign(user, patch)
+    return HttpResponse.json(user)
+  }),
+  http.get(`${API}/admin/audit`, async () => {
+    await delay(300)
+    return HttpResponse.json(auditLog)
+  }),
+  http.get(`${API}/admin/analytics`, async () => {
+    await delay(300)
+    return HttpResponse.json(analytics)
+  }),
+  http.get(`${API}/admin/notifications`, async () => {
+    await delay(300)
+    return HttpResponse.json(notifications)
+  }),
+  http.post(`${API}/admin/notifications`, async ({ request }) => {
+    await delay(300)
+    const { title, body, audience } = (await request.json()) as {
+      title: string
+      body: string
+      audience: string
+    }
+    const n: NotificationDto = {
+      id: `n${notifSeq++}`,
+      title,
+      body,
+      audience,
+      sentAt: new Date().toISOString().slice(0, 16).replace('T', ' '),
+    }
+    notifications.unshift(n)
+    return HttpResponse.json(n, { status: 201 })
   }),
 ]

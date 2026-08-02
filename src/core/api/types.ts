@@ -34,6 +34,41 @@ export interface EmployeeDto {
   managerId?: string
 }
 
+// --- Admin ---
+export interface AdminUserDto {
+  id: string
+  name: string
+  email: string
+  role: Role
+  status: 'active' | 'disabled'
+  lastActive: string
+}
+
+export interface AuditEntryDto {
+  id: string
+  at: string
+  actor: string
+  action: string
+  target: string
+}
+
+export interface AnalyticsDto {
+  totalUsers: number
+  activeToday: number
+  punchesToday: number
+  requestsThisWeek: number
+  mostUsedServices: { name: string; count: number }[]
+  topEvents: { name: string; registered: number }[]
+}
+
+export interface NotificationDto {
+  id: string
+  title: string
+  body: string
+  audience: string
+  sentAt: string
+}
+
 export interface ReleaseNoteDto {
   version: string
   date: string
