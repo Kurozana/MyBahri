@@ -60,7 +60,7 @@ const users: UserDto[] = [
   { id: 'u2', name: 'Sarah Al-Mansour', email: 'hr@bahri.sa', initials: 'SM', role: 'hr', title: 'Chief HR Officer', department: 'Human Resources' },
   { id: 'u3', name: 'Ahmed Alsubaey', email: 'exec@bahri.sa', initials: 'AA', role: 'executive', title: 'Chief Executive Officer', department: 'Executive' },
   { id: 'u4', name: 'Omar Nasser', email: 'employee@bahri.sa', initials: 'ON', role: 'employee', title: 'UX Designer', department: 'Product' },
-  { id: 'u5', name: 'Rania Khoury', email: 'admin@bahri.sa', initials: 'RK', role: 'admin', title: 'System Administrator', department: 'IT' },
+  { id: 'u5', name: 'Sysadmin', email: 'admin@bahri.sa', initials: 'SA', role: 'admin', title: 'System Administrator', department: 'IT' },
 ]
 
 // In-memory store — mutations persist for the session (until page reload).
