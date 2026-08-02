@@ -37,7 +37,7 @@ export function Sidebar() {
       </nav>
 
       <button
-        title="Bahri Assistant"
+        title="Bahar — AI Assistant"
         className="ml-1.5 grid size-12 shrink-0 place-items-center rounded-full bg-gradient-to-br from-brand-teal to-brand-cyan text-white shadow-lg shadow-brand-cyan/30 transition hover:scale-105"
       >
         <Bot className="size-6" />
