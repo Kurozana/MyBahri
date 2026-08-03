@@ -5,7 +5,7 @@ Each version below maps to a GitHub Release.
 
 ---
 
-## v0.4.0
+## v0.5.0
 
 ### New
 - You can now open a full weekly view of your attendance. Tap the Daily Attendance card to see each day this week marked Present, Partial, or Absent, along with your punch times, hours, and weekly total.
@@ -13,7 +13,7 @@ Each version below maps to a GitHub Release.
 
 ---
 
-## v0.3.0
+## v0.4.0
 
 ### New
 - The home banner now shows the latest company announcement, so you'll always see current news (like schedule or policy changes) right at the top.
@@ -23,7 +23,7 @@ Each version below maps to a GitHub Release.
 
 ---
 
-## v0.2.4
+## v0.3.1
 
 ### Improved
 - The side navigation now gently pushes the page aside when it expands, so it never covers your content.
@@ -33,7 +33,7 @@ Each version below maps to a GitHub Release.
 
 ---
 
-## v0.2.3
+## v0.3.0
 
 ### New
 - Multimedia now has separate tabs for Events, News, and a Photo Library (coming soon).
@@ -103,7 +103,7 @@ Style guide (keep it simple — these are for USERS, not developers):
 - No em dashes or double dashes ("—" / "--") in the notes. Use a period, comma, or colon instead.
 - Plain sentences, feature-level. No technical section headers.
 - Group under New / Improved / Fixed only.
-- Examples: "Added a new method of authentication.", "Fixed various bugs."
+- Versioning: new feature = minor (0.X.0), fix/refinement = patch (0.X.Y).
 Add a new "## vX.Y.Z" section at the top for each release.
 (Detailed technical history lives in the git commit messages.)
 -->
