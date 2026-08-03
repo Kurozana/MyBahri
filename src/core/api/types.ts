@@ -77,6 +77,17 @@ export interface ReleaseNoteDto {
   items: string[]
 }
 
+/** An unversioned admin/console changelog entry (see ADMIN_NOTES.md). Grouped by
+ *  period in the UI. For IT admins and, later, Content Management operators. */
+export interface AdminNoteDto {
+  id: string
+  /** Period label the entry falls under, e.g. 'August 2026'. */
+  date: string
+  title: string
+  tag: 'new' | 'improved' | 'fixed'
+  items: string[]
+}
+
 // --- API / Integration Suite ---
 
 /** How an integration is classified in the registry. */

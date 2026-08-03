@@ -6,6 +6,7 @@ import type {
   NotificationDto,
   IntegrationDto,
   IntegrationLogDto,
+  AdminNoteDto,
   Role,
 } from '@core/api/types'
 
@@ -31,4 +32,7 @@ export const adminApi = {
     apiPatch<IntegrationDto>(`/admin/integrations/${id}`, { enabled }),
   getIntegrationLogs: (signal?: AbortSignal) =>
     apiGet<IntegrationLogDto[]>('/admin/integration-logs', signal),
+
+  // Console changelog (unversioned admin notes, read-only in the UI)
+  getAdminNotes: (signal?: AbortSignal) => apiGet<AdminNoteDto[]>('/admin/changelog', signal),
 }

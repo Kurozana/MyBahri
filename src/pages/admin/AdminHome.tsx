@@ -10,6 +10,7 @@ const descriptions: Record<string, string> = {
   '/admin/analytics': 'Usage and engagement metrics.',
   '/admin/integrations': 'APIs, systems and call logs.',
   '/admin/release-notes': 'Author and publish updates.',
+  '/admin/changelog': 'Changes to the admin side.',
   '/admin/settings': 'Feature flags and maintenance mode.',
 }
 

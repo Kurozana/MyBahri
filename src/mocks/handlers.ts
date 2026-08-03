@@ -13,6 +13,7 @@ import type {
   NotificationDto,
   IntegrationDto,
   IntegrationLogDto,
+  AdminNoteDto,
 } from '@core/api/types'
 
 // --- Admin console (mock demo data) ---
@@ -230,6 +231,48 @@ const integrationLogs: IntegrationLogDto[] = [
   { id: 'l12', at: '2026-08-02 17:22:41', integration: 'Oracle Fusion HCM — Employees', direction: 'outbound', method: 'GET', endpoint: '/emps?q=id=1042', statusCode: 401, latencyMs: 96, message: 'Token expired — retried OK' },
 ]
 
+// Unversioned admin/console changelog (mirrors ADMIN_NOTES.md). Read-only in the UI.
+const adminNotes: AdminNoteDto[] = [
+  {
+    id: 'an3',
+    date: 'August 2026',
+    title: 'API / Integration Suite',
+    tag: 'new',
+    items: [
+      'Added an Integrations area listing every connected system and application, with its status, endpoint, average response time, uptime and calls today.',
+      'Each integration is classified as System or Application, with search and filtering across them.',
+      'Added a per-integration on/off switch, so an integration can be paused without a code change.',
+      'Added a recent-activity log of individual calls with result codes and response times, colour-coded so problems stand out.',
+      'Both the registry and the activity log can be exported to Excel.',
+    ],
+  },
+  {
+    id: 'an2',
+    date: 'August 2026',
+    title: 'Admin Console refinements',
+    tag: 'improved',
+    items: [
+      'Maintenance mode is fully editable: heading, message, and an optional "back online" countdown.',
+      'Turning maintenance on now asks for confirmation, with a clear warning that it stops everyone except admins.',
+      'Notifications became global announcements that publish straight to everyone\'s home banner.',
+      'Removed a duplicate "Release Management" entry from the top-bar menu.',
+    ],
+  },
+  {
+    id: 'an1',
+    date: 'August 2026',
+    title: 'Admin Console',
+    tag: 'new',
+    items: [
+      'Introduced the Admin Console with Overview, Users & Access, Notifications, Audit Log, Analytics, Release Notes and Settings.',
+      'Users & Access: view accounts, change roles, and enable or disable people.',
+      'Audit Log: a searchable record of who did what and when.',
+      'Analytics: active users, punches, most-used services and top events.',
+      'Settings: feature flags plus maintenance mode.',
+    ],
+  },
+]
+
 const notifications: NotificationDto[] = [
   { id: 'n1', title: 'Remote work next week', body: 'All staff will work remotely from Sunday to Thursday next week. Please take your equipment home.', audience: 'All staff', sentAt: '2026-08-01 17:00', active: true },
   { id: 'n2', title: 'New leave policy', body: 'The updated annual leave policy is now in effect.', audience: 'All staff', sentAt: '2026-07-28 10:15', active: false },
@@ -237,33 +280,61 @@ const notifications: NotificationDto[] = [
 let notifSeq = 10
 
 // In-memory release notes (newest first). Admins publish new ones via POST.
+// Mirrors RELEASE_NOTES.md; user-facing versions only.
 const releaseNotes: ReleaseNoteDto[] = [
   {
-    version: '0.2.3',
-    date: 'Jul 27, 2026',
+    version: '0.5.0',
+    date: 'Aug 3, 2026',
     items: [
-      'The calendar now opens on the current month and highlights event days.',
-      'Switch the calendar between Hijri and Gregorian.',
-      'Multimedia now has Events, News, and Photo Library tabs.',
-      "Added a What's New button to catch up on updates.",
+      'Open a full weekly view of your attendance from the Daily Attendance card, with Present / Partial / Absent tags.',
+      'Meet Bahar, your AI assistant, from the new button in the bottom-right corner. Coming soon!',
     ],
   },
   {
-    version: '0.2.1',
-    date: 'Jul 23, 2026',
+    version: '0.4.0',
+    date: 'Aug 1, 2026',
     items: [
-      'Updated the app logo to the official Bahri emblem.',
-      'Added live weather in the top bar.',
-      'Fixed the CEO name shown across the portal.',
+      'The home banner now shows the latest company announcement.',
+      'Planned maintenance now shows a friendly "we\'ll be back soon" page with a countdown.',
+    ],
+  },
+  {
+    version: '0.3.1',
+    date: 'Jul 29, 2026',
+    items: [
+      'The side navigation now pushes the page aside when it expands, instead of covering it.',
+      'Fixed pages and widgets occasionally showing "couldn\'t load" on first open.',
+    ],
+  },
+  {
+    version: '0.3.0',
+    date: 'Jul 27, 2026',
+    items: [
+      'Multimedia now has Events, News, and Photo Library tabs.',
+      'The calendar opens on the current month and highlights event days.',
+      'Switch the calendar between Hijri and Gregorian.',
+      "Added a What's New button to catch up on updates.",
+      'Your leave balance now comes from the system instead of a fixed number.',
     ],
   },
   {
     version: '0.2.0',
     date: 'Jul 22, 2026',
     items: [
-      'Added a new sign-in page with single sign-on.',
-      'Added Employee Lookup and a full CEO message page.',
-      'Congratulating the Employee of the Month now plays a celebration.',
+      'Added a new sign-in page with single sign-on and email.',
+      'Added role-based access, so you only see what your role allows.',
+      'Added Employee Lookup, a full CEO message page, and live weather.',
+      'Added a reporting-line view and an Upcoming Meetings widget.',
+    ],
+  },
+  {
+    version: '0.1.0',
+    date: 'Jul 20, 2026',
+    items: [
+      'First preview of the new, faster MyBahri portal.',
+      'Home dashboard with attendance, to-dos, events, calendar and more.',
+      'Live punch-in / punch-out with a running work timer.',
+      'Dark Mode and seasonal themes.',
     ],
   },
 ]
@@ -484,5 +555,10 @@ export const handlers = [
   http.get(`${API}/admin/integration-logs`, async () => {
     await delay(300)
     return HttpResponse.json(integrationLogs)
+  }),
+
+  http.get(`${API}/admin/changelog`, async () => {
+    await delay(300)
+    return HttpResponse.json(adminNotes)
   }),
 ]
