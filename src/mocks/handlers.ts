@@ -5,6 +5,7 @@ import type {
   TodoStatus,
   UserDto,
   EmployeeDto,
+  AttendanceRecordDto,
   ReleaseNoteDto,
   AdminUserDto,
   AuditEntryDto,
@@ -296,19 +297,38 @@ const todos: TodoDto[] = [
   { id: 't2', title: 'Digital card Request', when: 'Tomorrow, 10:00 AM', status: 'Completed' },
 ]
 
-const orgMembers: OrgMemberDto[] = [
-  { id: 'm1', name: 'Ahmed Alsubaey', title: 'Chief Executive Officer', initials: 'AA', team: 'Leadership Team' },
-  { id: 'm2', name: 'Mohammed Al-Harbi', title: 'Chief Support Officer', initials: 'MH', team: 'Leadership Team' },
-  { id: 'm3', name: 'Sarah Al-Mansour', title: 'Chief HR Officer', initials: 'SM', team: 'Leadership Team' },
-  { id: 'm4', name: 'Taher Azadbagh', title: 'Chief Planning Officer', initials: 'TA', team: 'Leadership Team' },
-  { id: 'm5', name: 'Khalid Al-Otaibi', title: 'Product Lead', initials: 'KO', team: 'Product Development' },
-  { id: 'm6', name: 'Layla Hassan', title: 'Senior Engineer', initials: 'LH', team: 'Product Development' },
-  { id: 'm7', name: 'Omar Nasser', title: 'UX Designer', initials: 'ON', team: 'Product Development' },
-  { id: 'm8', name: 'Fatima Zahra', title: 'QA Lead', initials: 'FZ', team: 'Product Development' },
-]
+// Intentionally empty — the org structure is populated from real accounts once
+// they exist (provisioned from the identity source). No hardcoded people.
+const orgMembers: OrgMemberDto[] = []
 
 const LATENCY = 500
 let seq = 100
+
+// Builds this week's punches (Sun–Thu workweek) up to today, so the tags
+// Present / Partial / Absent all have something to show. Portal is the source
+// of truth; a nightly scheduler syncs these to Fusion payroll.
+function buildAttendanceWeek(): AttendanceRecordDto[] {
+  const plan: Record<number, { hours: number; in: string | null; out: string | null }> = {
+    0: { hours: 8, in: '08:30', out: '16:30' },
+    1: { hours: 8, in: '08:15', out: '16:20' },
+    2: { hours: 5.5, in: '09:00', out: '14:30' },
+    3: { hours: 0, in: null, out: null },
+    4: { hours: 8, in: '08:40', out: '16:40' },
+  }
+  const today = new Date()
+  const day = today.getDay() // 0 = Sunday … 6 = Saturday
+  const sunday = new Date(today)
+  sunday.setDate(today.getDate() - day)
+
+  const records: AttendanceRecordDto[] = []
+  for (let i = 0; i <= day && i <= 4; i++) {
+    const d = new Date(sunday)
+    d.setDate(sunday.getDate() + i)
+    const p = plan[i]
+    records.push({ date: d.toISOString().slice(0, 10), punchIn: p.in, punchOut: p.out, hours: p.hours })
+  }
+  return records
+}
 
 // Match the same base the client uses (see main.tsx). Under GitHub Pages this
 // becomes '/MyBahri/api', which keeps requests inside the worker's scope.
@@ -372,6 +392,11 @@ export const handlers = [
   http.get(`${API}/leave-balance`, async () => {
     await delay(300)
     return HttpResponse.json({ balance: 14, unit: 'days', asOf: new Date().toISOString() })
+  }),
+
+  http.get(`${API}/attendance/week`, async () => {
+    await delay(300)
+    return HttpResponse.json(buildAttendanceWeek())
   }),
 
   http.get(`${API}/release-notes`, async () => {

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { CalendarDays, ChevronRight, LogIn, LogOut } from 'lucide-react'
 import { Card } from '@/components/ui/Card'
 import { useToast } from '@/components/ui/Toast'
@@ -20,6 +21,7 @@ function fmtClock(date: Date | null) {
 
 export function DailyAttendance() {
   const toast = useToast()
+  const navigate = useNavigate()
   const { data: leave } = useApi(portalApi.getLeaveBalance)
   const todayLabel = new Date().toLocaleDateString(undefined, {
     weekday: 'long',
@@ -61,13 +63,19 @@ export function DailyAttendance() {
 
   return (
     <Card className="flex flex-col">
-      <div className="flex items-center gap-1.5">
+      <button
+        onClick={() => navigate('/attendance')}
+        title="View this week's attendance"
+        className="group flex items-center gap-1.5 text-left"
+      >
         <span className="grid size-8 place-items-center rounded-lg bg-accent-soft text-primary-600 dark:text-primary-300">
           <CalendarDays className="size-[18px]" />
         </span>
-        <h2 className="text-[15px] font-bold text-content">Daily Attendance</h2>
-        <ChevronRight className="size-4 text-subtle" />
-      </div>
+        <h2 className="text-[15px] font-bold text-content group-hover:text-primary-600 dark:group-hover:text-primary-300">
+          Daily Attendance
+        </h2>
+        <ChevronRight className="size-4 text-subtle transition-transform group-hover:translate-x-0.5 group-hover:text-primary-500" />
+      </button>
 
       <div className="mt-4 grid grid-cols-2 gap-3">
         <div className="rounded-xl bg-surface-2 p-3">

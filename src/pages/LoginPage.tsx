@@ -10,7 +10,6 @@ import {
   CheckCircle2,
   Sparkles,
   ArrowRight,
-  LifeBuoy,
   TriangleAlert,
 } from 'lucide-react'
 import { BahriLogo } from '@/components/ui/BahriLogo'
@@ -19,7 +18,7 @@ import { useToast } from '@/components/ui/Toast'
 import { cn } from '@/lib/cn'
 
 const highlights = [
-  { icon: Clock, title: 'Punch in from anywhere', desc: 'Attendance that syncs to payroll automatically.' },
+  { icon: Clock, title: 'Punch in from anywhere', desc: 'Punch-in on the go!' },
   { icon: CheckCircle2, title: 'Approvals on the go', desc: 'Review and sign off workflows in a tap.' },
   { icon: Sparkles, title: 'Everything Bahri', desc: 'Services, people and news in one place.' },
 ]
@@ -186,11 +185,6 @@ export default function LoginPage() {
               {!busy && <ArrowRight className="size-4" />}
             </button>
           </form>
-
-          <p className="mt-8 flex items-center justify-center gap-1.5 text-xs text-subtle">
-            <LifeBuoy className="size-3.5" />
-            Trouble signing in? Contact the IT Service Desk.
-          </p>
         </div>
       </div>
     </div>

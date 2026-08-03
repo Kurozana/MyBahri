@@ -126,6 +126,16 @@ export interface LeaveBalanceDto {
   asOf: string
 }
 
+export interface AttendanceRecordDto {
+  /** ISO date (YYYY-MM-DD) for the day. */
+  date: string
+  /** Local clock time punched in, e.g. '08:32'; null if no punch that day. */
+  punchIn: string | null
+  punchOut: string | null
+  /** Hours worked that day (0 when absent). */
+  hours: number
+}
+
 export interface MeetingDto {
   id: string
   subject: string

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { TrendingUp, Sparkles, Send, ChevronLeft, ChevronRight } from 'lucide-react'
+import { TrendingUp, Send, ChevronLeft, ChevronRight } from 'lucide-react'
 import { Card, CardHeader } from '@/components/ui/Card'
 import { birthdayPeople, birthdayWishes } from '@core/content/home'
 import { asset } from '@/lib/asset'
@@ -70,9 +70,6 @@ export function SocialInsight() {
           </div>
 
           <div className="mt-auto pt-4">
-            <div className="mb-1.5 flex items-center justify-end gap-1 text-xs font-medium text-primary-600 dark:text-primary-300">
-              <Sparkles className="size-3.5" /> Write with AI
-            </div>
             <textarea
               value={message}
               onChange={(e) => setMessage(e.target.value)}

@@ -18,6 +18,7 @@ const StubPage = lazy(() => import('@/pages/StubPage'))
 const LoginPage = lazy(() => import('@/pages/LoginPage'))
 const CeoMessagePage = lazy(() => import('@/pages/CeoMessagePage'))
 const OrgHierarchyPage = lazy(() => import('@/pages/OrgHierarchyPage'))
+const AttendancePage = lazy(() => import('@/pages/AttendancePage'))
 // Admin console modules
 const AdminHome = lazy(() => import('@/pages/admin/AdminHome'))
 const UsersPage = lazy(() => import('@/pages/admin/UsersPage'))
@@ -55,6 +56,7 @@ const router = createBrowserRouter(
         { index: true, element: <HomePage /> },
         { path: 'ceo-message', element: <CeoMessagePage /> },
         { path: 'org', element: <OrgHierarchyPage /> },
+        { path: 'attendance', element: <AttendancePage /> },
         {
           path: 'admin',
           element: (

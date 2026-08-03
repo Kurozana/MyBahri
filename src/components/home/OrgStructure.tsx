@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Network, Search, TriangleAlert, RefreshCw } from 'lucide-react'
+import { Network, Search, TriangleAlert, RefreshCw, Users } from 'lucide-react'
 import { Card, CardHeader } from '@/components/ui/Card'
 import { Skeleton } from '@/components/ui/Skeleton'
 import { useApi } from '@core/hooks/useApi'
@@ -105,7 +105,19 @@ export function OrgStructure() {
       )}
 
       {!loading && !error && visible.length === 0 && (
-        <p className="mt-5 text-center text-sm text-subtle">No employees match your search.</p>
+        <div className="mt-5 flex flex-col items-center gap-2 rounded-xl border border-dashed border-line py-10 text-center">
+          <span className="grid size-11 place-items-center rounded-full bg-surface-2 text-subtle">
+            <Users className="size-5" />
+          </span>
+          <p className="text-sm font-semibold text-content">
+            {query || filter !== 'All' ? 'No matching employees' : 'No employees yet'}
+          </p>
+          <p className="max-w-xs text-xs text-subtle">
+            {query || filter !== 'All'
+              ? 'Try a different name or team filter.'
+              : 'The organizational structure will appear here once employee accounts are added.'}
+          </p>
+        </div>
       )}
     </Card>
   )

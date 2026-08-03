@@ -3,6 +3,7 @@ import { Outlet, useLocation } from 'react-router-dom'
 import { Header } from '@/components/layout/Header'
 import { Sidebar } from '@/components/layout/Sidebar'
 import { Footer } from '@/components/layout/Footer'
+import { BaharButton } from '@/components/layout/BaharButton'
 import { BrandLoader } from '@/components/ui/BrandLoader'
 
 function PageLoader() {
@@ -33,6 +34,7 @@ export function Layout() {
           <Footer />
         </main>
       </div>
+      <BaharButton />
     </div>
   )
 }
