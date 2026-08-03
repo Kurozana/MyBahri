@@ -5,6 +5,16 @@ Each version below maps to a GitHub Release.
 
 ---
 
+## v0.3.0
+
+### New
+1. The home banner now shows the latest company announcement, so you'll always see current news (like schedule or policy changes) right at the top.
+
+### Improved
+1. If the portal ever goes down for planned maintenance, you'll now see a friendly "we'll be back soon" page with a countdown instead of an error.
+
+---
+
 ## v0.2.4
 
 ### Improved
