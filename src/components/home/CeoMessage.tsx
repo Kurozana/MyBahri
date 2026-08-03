@@ -19,7 +19,7 @@ export function CeoMessage() {
           <p className="mt-3 max-w-md text-sm leading-relaxed text-white/85">{ceoMessage.excerpt}</p>
           <button
             onClick={() => navigate('/ceo-message')}
-            className="mt-5 inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-primary-700 transition hover:gap-3 hover:bg-white/90"
+            className="btn-shine mt-5 inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-200 hover:border-primary-300 hover:bg-primary-500 hover:shadow-[0_0_28px_4px_rgba(16,193,253,0.55)]"
           >
             Read Full Message
             <ArrowRight className="size-4" />

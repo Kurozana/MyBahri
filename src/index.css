@@ -224,12 +224,51 @@ body {
   animation: float-slow 9s ease-in-out infinite;
 }
 
+/* Sweeping shine for call-to-action buttons (e.g. the CEO "Read Full Message").
+   Pair with a colored/glassy button and Tailwind hover styles for the glow. */
+@keyframes btn-shine-sweep {
+  from {
+    opacity: 0;
+    left: 0%;
+  }
+  50% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    left: 100%;
+  }
+}
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+.btn-shine::before {
+  content: '';
+  position: absolute;
+  top: 7%;
+  left: 0;
+  width: 0;
+  height: 86%;
+  opacity: 0;
+  background: #fff;
+  box-shadow: 0 0 50px 30px #fff;
+  transform: skewX(-20deg);
+  pointer-events: none;
+}
+.btn-shine:hover::before {
+  animation: btn-shine-sweep 0.5s 0s linear;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-loader-progress,
   .animate-loader-pulse,
   .animate-loader-halo,
   .animate-float-slow,
   .animate-page-in {
+    animation: none;
+  }
+  .btn-shine:hover::before {
     animation: none;
   }
 }
