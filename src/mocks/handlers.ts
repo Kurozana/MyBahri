@@ -10,6 +10,8 @@ import type {
   AuditEntryDto,
   AnalyticsDto,
   NotificationDto,
+  IntegrationDto,
+  IntegrationLogDto,
 } from '@core/api/types'
 
 // --- Admin console (mock demo data) ---
@@ -47,6 +49,185 @@ const analytics: AnalyticsDto = {
     { name: 'Safety Awareness Day', registered: 60 },
   ],
 }
+
+// --- API / Integration Suite (mock registry + call logs) ---
+const integrations: IntegrationDto[] = [
+  {
+    id: 'int-auth',
+    name: 'MyBahri Auth API',
+    classification: 'System',
+    provider: 'MyBahri Portal',
+    category: 'Identity',
+    endpoint: '/api/auth',
+    method: 'POST',
+    status: 'operational',
+    enabled: true,
+    uptime: 99.98,
+    avgLatencyMs: 84,
+    callsToday: 1420,
+    lastChecked: '1 min ago',
+    description: 'Issues and validates portal sign-in tokens (JWT).',
+  },
+  {
+    id: 'int-entra',
+    name: 'Microsoft Entra ID (SSO)',
+    classification: 'System',
+    provider: 'Microsoft Entra',
+    category: 'Identity',
+    endpoint: 'https://login.microsoftonline.com/oauth2/v2.0',
+    method: 'POST',
+    status: 'operational',
+    enabled: true,
+    uptime: 99.95,
+    avgLatencyMs: 210,
+    callsToday: 612,
+    lastChecked: '1 min ago',
+    description: 'Single sign-on via corporate Microsoft accounts (OAuth 2.0 / PKCE).',
+  },
+  {
+    id: 'int-fusion-emp',
+    name: 'Oracle Fusion HCM — Employees',
+    classification: 'Application',
+    provider: 'Oracle Fusion HCM',
+    category: 'HR',
+    endpoint: '/hcmRestApi/resources/11.13.18.05/emps',
+    method: 'GET',
+    status: 'operational',
+    enabled: true,
+    uptime: 99.7,
+    avgLatencyMs: 540,
+    callsToday: 388,
+    lastChecked: '3 min ago',
+    description: 'Master employee records, org hierarchy and departments.',
+  },
+  {
+    id: 'int-fusion-leave',
+    name: 'Oracle Fusion HCM — Leave Balance',
+    classification: 'Application',
+    provider: 'Oracle Fusion HCM',
+    category: 'HR',
+    endpoint: '/hcmRestApi/resources/11.13.18.05/absencePlanBalances',
+    method: 'GET',
+    status: 'degraded',
+    enabled: true,
+    uptime: 97.4,
+    avgLatencyMs: 1180,
+    callsToday: 205,
+    lastChecked: '2 min ago',
+    description: 'Remaining leave days shown on the attendance card.',
+  },
+  {
+    id: 'int-bpm',
+    name: 'Oracle BPM — Approvals',
+    classification: 'Application',
+    provider: 'Oracle BPM Workflow',
+    category: 'Workflow',
+    endpoint: '/bpm/api/4.0/tasks',
+    method: 'POST',
+    status: 'operational',
+    enabled: true,
+    uptime: 99.4,
+    avgLatencyMs: 690,
+    callsToday: 143,
+    lastChecked: '4 min ago',
+    description: 'Routes leave and service requests for multi-level approval.',
+  },
+  {
+    id: 'int-gcp-sync',
+    name: 'GCP Middleware — User Sync',
+    classification: 'System',
+    provider: 'GCP Middleware',
+    category: 'Provisioning',
+    endpoint: 'https://mw.bahri.sa/v1/users/sync',
+    method: 'Webhook',
+    status: 'operational',
+    enabled: true,
+    uptime: 99.9,
+    avgLatencyMs: 320,
+    callsToday: 26,
+    lastChecked: '12 min ago',
+    description: 'Upserts portal accounts from the identity source (hash-based no-op detection).',
+  },
+  {
+    id: 'int-gcp-payroll',
+    name: 'GCP Middleware — Attendance → Payroll',
+    classification: 'System',
+    provider: 'GCP Middleware',
+    category: 'Attendance',
+    endpoint: 'https://mw.bahri.sa/v1/attendance/push',
+    method: 'POST',
+    status: 'operational',
+    enabled: true,
+    uptime: 99.6,
+    avgLatencyMs: 450,
+    callsToday: 3,
+    lastChecked: '2 h ago',
+    description: 'Nightly scheduler that pushes the day’s punches to Fusion payroll.',
+  },
+  {
+    id: 'int-graph',
+    name: 'Microsoft Graph — Calendar',
+    classification: 'Application',
+    provider: 'Microsoft Graph',
+    category: 'Productivity',
+    endpoint: 'https://graph.microsoft.com/v1.0/me/calendarView',
+    method: 'GET',
+    status: 'operational',
+    enabled: true,
+    uptime: 99.8,
+    avgLatencyMs: 260,
+    callsToday: 331,
+    lastChecked: '1 min ago',
+    description: 'Powers the Upcoming Meetings widget from Outlook calendars.',
+  },
+  {
+    id: 'int-weather',
+    name: 'Open-Meteo Weather',
+    classification: 'Application',
+    provider: 'Open-Meteo',
+    category: 'Utility',
+    endpoint: 'https://api.open-meteo.com/v1/forecast',
+    method: 'GET',
+    status: 'operational',
+    enabled: true,
+    uptime: 99.99,
+    avgLatencyMs: 130,
+    callsToday: 540,
+    lastChecked: '1 min ago',
+    description: 'Live weather shown in the top bar.',
+  },
+  {
+    id: 'int-bahar',
+    name: 'Bahar AI Assistant',
+    classification: 'Application',
+    provider: 'Bahar AI',
+    category: 'AI',
+    endpoint: 'https://ai.bahri.sa/v1/chat',
+    method: 'POST',
+    status: 'down',
+    enabled: false,
+    uptime: 0,
+    avgLatencyMs: 0,
+    callsToday: 0,
+    lastChecked: '5 min ago',
+    description: 'Conversational assistant. Currently disabled pending rollout.',
+  },
+]
+
+const integrationLogs: IntegrationLogDto[] = [
+  { id: 'l1', at: '2026-08-03 09:41:12', integration: 'Oracle Fusion HCM — Leave Balance', direction: 'outbound', method: 'GET', endpoint: '/absencePlanBalances?empId=1042', statusCode: 200, latencyMs: 1240, message: 'OK (slow)' },
+  { id: 'l2', at: '2026-08-03 09:40:58', integration: 'MyBahri Auth API', direction: 'inbound', method: 'POST', endpoint: '/api/auth/login', statusCode: 200, latencyMs: 78 },
+  { id: 'l3', at: '2026-08-03 09:40:31', integration: 'Microsoft Graph — Calendar', direction: 'outbound', method: 'GET', endpoint: '/me/calendarView', statusCode: 200, latencyMs: 254 },
+  { id: 'l4', at: '2026-08-03 09:39:47', integration: 'Bahar AI Assistant', direction: 'outbound', method: 'POST', endpoint: '/v1/chat', statusCode: 503, latencyMs: 0, message: 'Service disabled' },
+  { id: 'l5', at: '2026-08-03 09:38:20', integration: 'Oracle BPM — Approvals', direction: 'outbound', method: 'POST', endpoint: '/tasks/1204/approve', statusCode: 201, latencyMs: 662 },
+  { id: 'l6', at: '2026-08-03 09:37:03', integration: 'Oracle Fusion HCM — Employees', direction: 'outbound', method: 'GET', endpoint: '/emps?q=dept=PMO', statusCode: 200, latencyMs: 512 },
+  { id: 'l7', at: '2026-08-03 09:35:44', integration: 'Oracle Fusion HCM — Leave Balance', direction: 'outbound', method: 'GET', endpoint: '/absencePlanBalances?empId=1088', statusCode: 504, latencyMs: 3000, message: 'Gateway timeout' },
+  { id: 'l8', at: '2026-08-03 09:34:10', integration: 'Microsoft Entra ID (SSO)', direction: 'inbound', method: 'POST', endpoint: '/oauth2/v2.0/token', statusCode: 200, latencyMs: 198 },
+  { id: 'l9', at: '2026-08-03 09:31:02', integration: 'Open-Meteo Weather', direction: 'outbound', method: 'GET', endpoint: '/v1/forecast?lat=24.7&lon=46.7', statusCode: 200, latencyMs: 121 },
+  { id: 'l10', at: '2026-08-03 02:00:05', integration: 'GCP Middleware — Attendance → Payroll', direction: 'outbound', method: 'POST', endpoint: '/v1/attendance/push', statusCode: 200, latencyMs: 448, message: '241 punches synced' },
+  { id: 'l11', at: '2026-08-03 01:30:00', integration: 'GCP Middleware — User Sync', direction: 'inbound', method: 'POST', endpoint: '/v1/users/sync', statusCode: 200, latencyMs: 305, message: '3 created, 12 updated, 985 unchanged' },
+  { id: 'l12', at: '2026-08-02 17:22:41', integration: 'Oracle Fusion HCM — Employees', direction: 'outbound', method: 'GET', endpoint: '/emps?q=id=1042', statusCode: 401, latencyMs: 96, message: 'Token expired — retried OK' },
+]
 
 const notifications: NotificationDto[] = [
   { id: 'n1', title: 'Remote work next week', body: 'All staff will work remotely from Sunday to Thursday next week. Please take your equipment home.', audience: 'All staff', sentAt: '2026-08-01 17:00', active: true },
@@ -258,5 +439,25 @@ export const handlers = [
     if (active) notifications.forEach((x) => (x.active = false)) // only one active banner
     n.active = active
     return HttpResponse.json(n)
+  }),
+
+  // --- API / Integration Suite ---
+  http.get(`${API}/admin/integrations`, async () => {
+    await delay(300)
+    return HttpResponse.json(integrations)
+  }),
+  http.patch(`${API}/admin/integrations/:id`, async ({ params, request }) => {
+    await delay(200)
+    const { enabled } = (await request.json()) as { enabled: boolean }
+    const it = integrations.find((x) => x.id === params.id)
+    if (!it) return new HttpResponse(null, { status: 404 })
+    it.enabled = enabled
+    // A disabled integration reports as down; re-enabling brings it back operational.
+    it.status = enabled ? 'operational' : 'down'
+    return HttpResponse.json(it)
+  }),
+  http.get(`${API}/admin/integration-logs`, async () => {
+    await delay(300)
+    return HttpResponse.json(integrationLogs)
   }),
 ]

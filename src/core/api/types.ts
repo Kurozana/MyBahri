@@ -77,6 +77,48 @@ export interface ReleaseNoteDto {
   items: string[]
 }
 
+// --- API / Integration Suite ---
+
+/** How an integration is classified in the registry. */
+export type IntegrationClass = 'System' | 'Application'
+export type IntegrationStatus = 'operational' | 'degraded' | 'down'
+export type IntegrationMethod = 'GET' | 'POST' | 'PATCH' | 'DELETE' | 'GraphQL' | 'Webhook'
+
+export interface IntegrationDto {
+  id: string
+  name: string
+  /** System = core platform plumbing; Application = a business-facing integration. */
+  classification: IntegrationClass
+  /** Owning system or vendor, e.g. 'Oracle Fusion HCM', 'GCP Middleware'. */
+  provider: string
+  /** Functional area, e.g. 'HR', 'Identity', 'Attendance'. */
+  category: string
+  endpoint: string
+  method: IntegrationMethod
+  status: IntegrationStatus
+  /** Turned off = the portal stops calling it (kill switch). */
+  enabled: boolean
+  /** Rolling availability, percent. */
+  uptime: number
+  avgLatencyMs: number
+  callsToday: number
+  lastChecked: string
+  description: string
+}
+
+export interface IntegrationLogDto {
+  id: string
+  at: string
+  /** Name of the integration this call belongs to. */
+  integration: string
+  direction: 'inbound' | 'outbound'
+  method: string
+  endpoint: string
+  statusCode: number
+  latencyMs: number
+  message?: string
+}
+
 export interface LeaveBalanceDto {
   /** remaining leave days */
   balance: number

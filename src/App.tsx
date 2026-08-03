@@ -24,6 +24,7 @@ const UsersPage = lazy(() => import('@/pages/admin/UsersPage'))
 const NotificationsPage = lazy(() => import('@/pages/admin/NotificationsPage'))
 const AuditPage = lazy(() => import('@/pages/admin/AuditPage'))
 const AnalyticsPage = lazy(() => import('@/pages/admin/AnalyticsPage'))
+const IntegrationsPage = lazy(() => import('@/pages/admin/IntegrationsPage'))
 const SettingsPage = lazy(() => import('@/pages/admin/SettingsPage'))
 const ReleaseNotesAdminPage = lazy(() => import('@/pages/ReleaseNotesAdminPage'))
 
@@ -67,6 +68,7 @@ const router = createBrowserRouter(
             { path: 'notifications', element: <NotificationsPage /> },
             { path: 'audit', element: <AuditPage /> },
             { path: 'analytics', element: <AnalyticsPage /> },
+            { path: 'integrations', element: <IntegrationsPage /> },
             { path: 'release-notes', element: <ReleaseNotesAdminPage /> },
             { path: 'settings', element: <SettingsPage /> },
           ],

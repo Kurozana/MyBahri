@@ -4,6 +4,8 @@ import type {
   AuditEntryDto,
   AnalyticsDto,
   NotificationDto,
+  IntegrationDto,
+  IntegrationLogDto,
   Role,
 } from '@core/api/types'
 
@@ -21,4 +23,12 @@ export const adminApi = {
     apiPost<NotificationDto>('/admin/notifications', input),
   setNotificationActive: (id: string, active: boolean) =>
     apiPatch<NotificationDto>(`/admin/notifications/${id}`, { active }),
+
+  // API / Integration Suite
+  getIntegrations: (signal?: AbortSignal) =>
+    apiGet<IntegrationDto[]>('/admin/integrations', signal),
+  setIntegrationEnabled: (id: string, enabled: boolean) =>
+    apiPatch<IntegrationDto>(`/admin/integrations/${id}`, { enabled }),
+  getIntegrationLogs: (signal?: AbortSignal) =>
+    apiGet<IntegrationLogDto[]>('/admin/integration-logs', signal),
 }

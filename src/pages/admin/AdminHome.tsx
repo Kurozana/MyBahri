@@ -8,6 +8,7 @@ const descriptions: Record<string, string> = {
   '/admin/notifications': 'Send announcements to staff.',
   '/admin/audit': 'Who did what, and when.',
   '/admin/analytics': 'Usage and engagement metrics.',
+  '/admin/integrations': 'APIs, systems and call logs.',
   '/admin/release-notes': 'Author and publish updates.',
   '/admin/settings': 'Feature flags and maintenance mode.',
 }

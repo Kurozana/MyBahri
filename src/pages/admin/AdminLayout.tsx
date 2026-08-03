@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
-import { LayoutDashboard, Users2, Bell, ScrollText, BarChart3, Rocket, Settings } from 'lucide-react'
+import { LayoutDashboard, Users2, Bell, ScrollText, BarChart3, Plug, Rocket, Settings } from 'lucide-react'
 import { ShieldCheck } from 'lucide-react'
 import { BrandLoader } from '@/components/ui/BrandLoader'
 import { cn } from '@/lib/cn'
@@ -11,6 +11,7 @@ export const adminNav = [
   { to: '/admin/notifications', label: 'Notifications', icon: Bell },
   { to: '/admin/audit', label: 'Audit Log', icon: ScrollText },
   { to: '/admin/analytics', label: 'Analytics', icon: BarChart3 },
+  { to: '/admin/integrations', label: 'Integrations', icon: Plug },
   { to: '/admin/release-notes', label: 'Release Notes', icon: Rocket },
   { to: '/admin/settings', label: 'Settings', icon: Settings },
 ]
