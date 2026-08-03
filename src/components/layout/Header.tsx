@@ -46,9 +46,9 @@ export function Header() {
             <span className="text-subtle">{RIYADH.city}</span>
           </button>
 
+          <ReleaseNotesButton />
           {flags.seasonalThemes && <OccasionSwitcher />}
           <ThemeToggle />
-          <ReleaseNotesButton />
 
           <button className="grid size-9 place-items-center rounded-full border border-line bg-surface text-primary-600 transition hover:bg-surface-2 dark:text-primary-400">
             <IdCard className="size-[18px]" />
