@@ -5,6 +5,14 @@ Each version below maps to a GitHub Release.
 
 ---
 
+## v0.4.0
+
+### New
+1. You can now open a full weekly view of your attendance — tap the Daily Attendance card to see each day this week marked Present, Partial, or Absent, along with your punch times, hours, and weekly total.
+2. Say hello to Bahar, your AI assistant — look for the new button in the bottom-right corner. It's coming soon!
+
+---
+
 ## v0.3.0
 
 ### New
