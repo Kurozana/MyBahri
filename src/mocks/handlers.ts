@@ -49,8 +49,8 @@ const analytics: AnalyticsDto = {
 }
 
 const notifications: NotificationDto[] = [
-  { id: 'n1', title: 'System maintenance tonight', body: 'The portal will be briefly unavailable at 11 PM.', audience: 'All staff', sentAt: '2026-08-01 17:00' },
-  { id: 'n2', title: 'New leave policy', body: 'The updated annual leave policy is now in effect.', audience: 'All staff', sentAt: '2026-07-28 10:15' },
+  { id: 'n1', title: 'Remote work next week', body: 'All staff will work remotely from Sunday to Thursday next week. Please take your equipment home.', audience: 'All staff', sentAt: '2026-08-01 17:00', active: true },
+  { id: 'n2', title: 'New leave policy', body: 'The updated annual leave policy is now in effect.', audience: 'All staff', sentAt: '2026-07-28 10:15', active: false },
 ]
 let notifSeq = 10
 
@@ -237,14 +237,26 @@ export const handlers = [
       body: string
       audience: string
     }
+    // A newly published announcement becomes the single active banner.
+    notifications.forEach((x) => (x.active = false))
     const n: NotificationDto = {
       id: `n${notifSeq++}`,
       title,
       body,
       audience,
       sentAt: new Date().toISOString().slice(0, 16).replace('T', ' '),
+      active: true,
     }
     notifications.unshift(n)
     return HttpResponse.json(n, { status: 201 })
+  }),
+  http.patch(`${API}/admin/notifications/:id`, async ({ params, request }) => {
+    await delay(200)
+    const { active } = (await request.json()) as { active: boolean }
+    const n = notifications.find((x) => x.id === params.id)
+    if (!n) return new HttpResponse(null, { status: 404 })
+    if (active) notifications.forEach((x) => (x.active = false)) // only one active banner
+    n.active = active
+    return HttpResponse.json(n)
   }),
 ]

@@ -67,6 +67,8 @@ export interface NotificationDto {
   body: string
   audience: string
   sentAt: string
+  /** When active, this announcement shows as the banner across the portal. */
+  active: boolean
 }
 
 export interface ReleaseNoteDto {

@@ -19,4 +19,6 @@ export const adminApi = {
   getNotifications: (signal?: AbortSignal) => apiGet<NotificationDto[]>('/admin/notifications', signal),
   sendNotification: (input: { title: string; body: string; audience: string }) =>
     apiPost<NotificationDto>('/admin/notifications', input),
+  setNotificationActive: (id: string, active: boolean) =>
+    apiPatch<NotificationDto>(`/admin/notifications/${id}`, { active }),
 }

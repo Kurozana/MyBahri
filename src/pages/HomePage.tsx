@@ -1,4 +1,4 @@
-import { PromotionsBanner } from '@/components/home/PromotionsBanner'
+import { AnnouncementBanner } from '@/components/home/AnnouncementBanner'
 import { DailyAttendance } from '@/components/home/DailyAttendance'
 import { CeoMessage } from '@/components/home/CeoMessage'
 import { Multimedia } from '@/components/home/Multimedia'
@@ -17,7 +17,7 @@ export default function HomePage() {
   const flags = useFeatureFlags()
   return (
     <div className="space-y-5">
-      <PromotionsBanner />
+      <AnnouncementBanner />
 
       {/* Attendance + CEO row */}
       <div className="grid gap-5 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,2fr)]">

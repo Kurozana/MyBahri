@@ -5,7 +5,12 @@
  * it applies to every user, not just the current browser.
  */
 
-export type Maintenance = { enabled: boolean; message: string; until: string | null }
+export type Maintenance = {
+  enabled: boolean
+  title: string
+  message: string
+  until: string | null
+}
 export type FeatureFlags = Record<string, boolean>
 
 const MAINT_KEY = 'mybahri-maintenance'
@@ -14,6 +19,7 @@ export const SETTINGS_EVENT = 'mybahri-settings-changed'
 
 const defaultMaintenance: Maintenance = {
   enabled: false,
+  title: "We'll be back soon",
   message: "We're doing some quick maintenance and will be back shortly.",
   until: null,
 }
